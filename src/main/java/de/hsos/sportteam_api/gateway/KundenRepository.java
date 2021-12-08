@@ -3,7 +3,6 @@ package de.hsos.sportteam_api.gateway;
 import java.io.Serializable;
 import java.util.Collection;
 
-import javax.enterprise.inject.Default;
 import javax.enterprise.inject.Model;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -22,30 +21,30 @@ public class KundenRepository implements KundenServiceInterface, Serializable {
     protected EntityManager em;
 
     @Transactional
-    public void persistKunde (Kunde kunde) {
+    public void persistKunde (Kunde kunde){
         em.persist(kunde);
     }
 
     @Transactional
     @Override
-    public void kundeAnlegen(String name) {
+    public void createKunde(String name) {
         Kunde tmp = new Kunde(name);
         em.persist(tmp);
     }
 
     @Override
-    public Collection<Kunde> kundenAbfragen() {
+    public Collection<Kunde> getKunden() {
         return em.createQuery("SELECT k FROM Kunde k", Kunde.class).getResultList();
     }
 
     @Override
-    public Kunde kundeAbfragen(long kundeNummer) {
+    public Kunde getKunde(long kundeNummer) {
         return em.find(Kunde.class, kundeNummer);
     }
 
     @Transactional
     @Override
-    public boolean kundeLoeschen(long kundeNummer) {
+    public boolean deleteKunde(long kundeNummer) {
         Kunde tmp = em.find(Kunde.class, kundeNummer);
         if (tmp != null){
             em.remove(tmp);
@@ -56,7 +55,7 @@ public class KundenRepository implements KundenServiceInterface, Serializable {
 
     @Transactional
     @Override
-    public void adresseAnlegen(long kundeNummer, Adresse adresse) {
+    public void createAdresse(long kundeNummer, Adresse adresse) {
         Kunde tmp = em.find(Kunde.class, kundeNummer);
         if (tmp != null){
             tmp.setAdresse(adresse);
@@ -66,7 +65,7 @@ public class KundenRepository implements KundenServiceInterface, Serializable {
 
     @Transactional
     @Override
-    public void adresseAendern(long kundeNummer, Adresse neueAdresse) {
+    public void updateAdresse(long kundeNummer, Adresse neueAdresse) {
         Kunde tmp = em.find(Kunde.class, kundeNummer);
         if (tmp != null){
             tmp.setAdresse(neueAdresse);
@@ -75,7 +74,7 @@ public class KundenRepository implements KundenServiceInterface, Serializable {
     }
 
     @Override
-    public Adresse adresseAbfragen(long kundeNummer) {
+    public Adresse getAdresse(long kundeNummer) {
         Kunde tmp = em.find(Kunde.class, kundeNummer);
         if (tmp == null)
             return null;
@@ -84,7 +83,7 @@ public class KundenRepository implements KundenServiceInterface, Serializable {
 
     @Transactional
     @Override
-    public boolean adresseLoeschen(long kundeNummer) {
+    public boolean deleteAdresse(long kundeNummer) {
         Kunde tmp = em.find(Kunde.class, kundeNummer);
         if (tmp != null){
             tmp.deleteAdresse();
