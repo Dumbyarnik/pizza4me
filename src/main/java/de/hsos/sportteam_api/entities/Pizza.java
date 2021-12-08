@@ -29,7 +29,19 @@ public class Pizza implements Serializable {
 
     @Column(nullable = false)
     private Long price;
+
+    public Pizza(){}
     
+    public Pizza(String name, Long price){
+        this.name = name;
+        this.price = price;
+    }
+
+    public Pizza(String name, String description, Long price){
+        this.name = name;
+        this.description = description;
+        this.price = price;
+    }
 
     /**
      * @return long return the id
