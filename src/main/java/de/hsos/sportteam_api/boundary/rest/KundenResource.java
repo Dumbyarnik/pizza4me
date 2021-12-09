@@ -24,32 +24,32 @@ public class KundenResource implements KundenResourceInterface {
 
     @Override
     public Response getKunden() {
-        return Response.ok(kundenRepository.kundenAbfragen()).build();
+        return Response.ok(kundenRepository.getKunden()).build();
     }
 
     @Override
     public Response getKunde(Long id) {
-        if (kundenRepository.kundeAbfragen(id) == null)
+        if (kundenRepository.getKunde(id) == null)
             return Response.status(Status.NOT_FOUND).build();
-        return Response.ok(kundenRepository.kundeAbfragen(id)).build();
+        return Response.ok(kundenRepository.getAdresse(id)).build();
     }
 
     @Override
     public Response createKunde(String name) {
-        kundenRepository.kundeAnlegen(name);
+        kundenRepository.createKunde(name);
         return Response.ok().build();
     }
 
     @Override
     public Response deleteKunde(Long id) {
-        if (kundenRepository.kundeLoeschen(id))
+        if (kundenRepository.deleteKunde(id))
             return Response.ok().build();
         return Response.status(Status.NOT_FOUND).build();
     }
 
     @Override
     public Response getAdresse(Long id) {
-        Adresse tmp = kundenRepository.adresseAbfragen(id);
+        Adresse tmp = kundenRepository.getAdresse(id);
         if (tmp != null)
             return Response.ok(tmp).build();
         return Response.status(Status.NOT_FOUND).build();
@@ -57,19 +57,19 @@ public class KundenResource implements KundenResourceInterface {
 
     @Override
     public Response createAdresse(Long id, Adresse adresse) {
-        kundenRepository.adresseAnlegen(id, adresse);
+        kundenRepository.createAdresse(id, adresse);
         return Response.ok().build();
     }
 
     @Override
     public Response updateAdresse(Long id, Adresse adresse) {
-        kundenRepository.adresseAendern(id, adresse);
+        kundenRepository.updateAdresse(id, adresse);
         return Response.ok().build();
     }
     
     @Override
     public Response deleteAdresse(Long id) {
-        kundenRepository.adresseLoeschen(id);
+        kundenRepository.deleteAdresse(id);
         return Response.ok().build();
     }
     

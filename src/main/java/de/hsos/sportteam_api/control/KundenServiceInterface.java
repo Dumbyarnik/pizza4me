@@ -12,12 +12,12 @@ import de.hsos.sportteam_api.entities.Kunde;
 @ApplicationScoped
 @Singleton
 public interface KundenServiceInterface {
-    void kundeAnlegen(String name);
-    Collection<Kunde> kundenAbfragen();
-    Kunde kundeAbfragen(long kundeNummer);
-    boolean kundeLoeschen(long kundeNummer);
-    void adresseAnlegen(long kundeNummer, Adresse adresse);
-    void adresseAendern(long kundeNummer, Adresse neueAdresse);
-    Adresse adresseAbfragen(long kundeNummer);
-    boolean adresseLoeschen(long kundeNummer);
+    void createKunde(String name);
+    Collection<Kunde> getKunden();
+    Kunde getKunde(long kundeNummer);
+    boolean deleteKunde(long kundeNummer);
+    void createAdresse(long kundeNummer, Adresse adresse);
+    void updateAdresse(long kundeNummer, Adresse neueAdresse);
+    Adresse getAdresse(long kundeNummer);
+    boolean deleteAdresse(long kundeNummer);
 }
