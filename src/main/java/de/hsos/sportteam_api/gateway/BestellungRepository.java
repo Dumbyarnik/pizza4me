@@ -33,7 +33,14 @@ public class BestellungRepository implements Serializable {
     }
 
     public Collection<Bestellung> getBestellungen() {
-        return em.createQuery("SELECT b FROM Bestellung b", Bestellung.class).getResultList();
+        Collection<Bestellung> bestellungen = 
+            em.createQuery("SELECT b FROM Bestellung b", Bestellung.class).getResultList();
+        for (Bestellung bestellung : bestellungen) {
+            for (Bestellpost bestellpost : bestellung.getBestellposten()) {
+                bestellpost.deleteBestellung();
+            }
+        }
+        return bestellungen;
     }
 
     public Collection<Bestellpost> getBestellposten(Long bestellung_id){
@@ -42,7 +49,7 @@ public class BestellungRepository implements Serializable {
             return null;
         Collection<Bestellpost> bestellposten = bestellung.getBestellposten();
         for (Bestellpost bestellpost : bestellposten) {
-            bestellpost.setBestellung(null);
+            bestellpost.deleteBestellung();
         }
         return bestellposten;
     }

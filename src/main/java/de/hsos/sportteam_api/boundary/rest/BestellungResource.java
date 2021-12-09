@@ -56,7 +56,7 @@ public class BestellungResource {
 
     // http://localhost:8080/bestellungen/{bestellung_id}/bestellpost
     @POST
-    @Path("/{bestellung_id}/bestellpost")
+    @Path("/{bestellung_id}/bestellposten")
     public Response createBestellpost(@PathParam("bestellung_id") Long bestellung_id) {
         if (bestellungRepository.createBestellpost(bestellung_id))
             return Response.ok().build();

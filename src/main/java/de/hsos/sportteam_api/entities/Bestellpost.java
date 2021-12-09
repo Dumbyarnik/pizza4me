@@ -55,4 +55,8 @@ public class Bestellpost implements Serializable {
         this.bestellung = bestellung;
     }
 
+    public void deleteBestellung(){
+        this.bestellung = null;
+    }
+
 }
