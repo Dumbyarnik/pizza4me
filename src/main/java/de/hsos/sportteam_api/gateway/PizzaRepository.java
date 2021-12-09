@@ -26,5 +26,23 @@ public class PizzaRepository implements Serializable {
     public Collection<Pizza> getPizzas() {
         return em.createQuery("SELECT p FROM Pizza p", Pizza.class).getResultList();
     }
+
+    public Pizza getPizza(Long pizza_id) {
+        return em.find(Pizza.class, pizza_id);
+    }
+
+    public String getDescription(Long pizza_id) {
+        Pizza pizza = em.find(Pizza.class, pizza_id);
+        if (pizza == null)
+            return null;
+        return pizza.getDescription();
+    }
+
+    public Long getPrice(Long pizza_id) {
+        Pizza pizza = em.find(Pizza.class, pizza_id);
+        if (pizza == null)
+            return null;
+        return pizza.getPrice();
+    }
     
 }
