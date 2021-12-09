@@ -27,9 +27,6 @@ public class PizzaResource {
     
     @PostConstruct
     public void init() {
-        pizzaRepository.persistPizza(new Pizza("Margarita", "Good pizza", 10L));
-        pizzaRepository.persistPizza(new Pizza("Pizza con Fungi", "Cool pizza", 12L));
-        pizzaRepository.persistPizza(new Pizza("Pizza con Gorgonzola", "Great pizza", 13L));
     }
 
     // http://localhost:8080/pizzas

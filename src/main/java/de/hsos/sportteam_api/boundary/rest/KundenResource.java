@@ -17,9 +17,7 @@ public class KundenResource implements KundenResourceInterface {
     
     @PostConstruct
     public void init() {
-        this.kundenRepository.persistKunde(new Kunde("Martina", 
-            new Adresse ("default", "default", "default", "default")));
-        this.kundenRepository.persistKunde(new Kunde("Jack"));
+        
     }
 
     @Override

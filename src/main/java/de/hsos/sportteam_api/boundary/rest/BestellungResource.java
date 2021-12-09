@@ -13,8 +13,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import de.hsos.sportteam_api.entities.Adresse;
+import de.hsos.sportteam_api.entities.Kunde;
 import de.hsos.sportteam_api.entities.Pizza;
 import de.hsos.sportteam_api.gateway.BestellungRepository;
+import de.hsos.sportteam_api.gateway.KundenRepository;
 import de.hsos.sportteam_api.gateway.PizzaRepository;
 import io.quarkus.qute.Results.NotFound;
 
@@ -26,10 +29,31 @@ public class BestellungResource {
 
     @Inject
     BestellungRepository bestellungRepository;
+
+    @Inject
+    KundenRepository kundenRepository;
+
+    @Inject
+    PizzaRepository pizzaRepository;
     
     @PostConstruct
     public void init() {
+        // Creating kunden
+        kundenRepository.createKunde("Alph");
+        kundenRepository.persistKunde(new Kunde("Martina", 
+            new Adresse ("default", "default", "default", "default")));
+        kundenRepository.persistKunde(new Kunde("Jack"));
+
+        // ctreating pizzas
+        pizzaRepository.persistPizza(new Pizza("Margarita", "Good pizza", 10L));
+        pizzaRepository.persistPizza(new Pizza("Pizza con Fungi", "Cool pizza", 12L));
+        pizzaRepository.persistPizza(new Pizza("Pizza con Gorgonzola", "Great pizza", 13L));
+
+        // creating bestellungen
         bestellungRepository.createBestellung(1L);
+
+        //creating bestellposten
+        bestellungRepository.createBestellpost(1L);
     }
 
     // http://localhost:8080/bestellungen
