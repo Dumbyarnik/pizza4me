@@ -13,6 +13,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Dependent
@@ -26,13 +28,14 @@ public class Bestellung implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    @Column(nullable = false)
-    private Long kunde_id; 
 
     @OneToMany(mappedBy = "bestellung", fetch = FetchType.LAZY,
         cascade = CascadeType.ALL)
     private Collection<Bestellpost> bestellposten = new ArrayList<Bestellpost>();
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.DETACH)
+    @JoinColumn(name = "kunde_id", nullable = false)
+    private Kunde kunde;
 
     public Bestellung(){}
 
@@ -42,21 +45,6 @@ public class Bestellung implements Serializable {
     public Long getId() {
         return id;
     }
-
-    /**
-     * @return Long return the kunde_id
-     */
-    public Long getKunde_id() {
-        return kunde_id;
-    }
-
-    /**
-     * @param kunde_id the kunde_id to set
-     */
-    public void setKunde_id(Long kunde_id) {
-        this.kunde_id = kunde_id;
-    }
-
 
     /**
      * @param id the id to set
@@ -81,6 +69,18 @@ public class Bestellung implements Serializable {
 
     public void addBestellpost(Bestellpost bestellpost){
         this.bestellposten.add(bestellpost);
+    }
+
+    public Kunde getKunde(){
+        return kunde;
+    }
+
+    public void setKunde(Kunde kunde){
+        this.kunde = kunde;
+    }
+
+    public void deleteKunde(){
+        this.kunde = null;
     }
 
 }

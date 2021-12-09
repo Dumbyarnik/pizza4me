@@ -27,7 +27,7 @@ public class BestellungRepository implements Serializable {
             return false;
 
         Bestellung bestellung = new Bestellung();
-        bestellung.setKunde_id(kunde_id);
+        bestellung.setKunde(kunde);
         em.persist(bestellung);
         return true;
     }
@@ -39,6 +39,7 @@ public class BestellungRepository implements Serializable {
             for (Bestellpost bestellpost : bestellung.getBestellposten()) {
                 bestellpost.deleteBestellung();
             }
+            bestellung.deleteKunde();
         }
         return bestellungen;
     }
