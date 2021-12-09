@@ -29,6 +29,7 @@ public class BestellungResource {
     
     @PostConstruct
     public void init() {
+        bestellungRepository.createBestellung(1L);
     }
 
     // http://localhost:8080/bestellungen
@@ -44,5 +45,25 @@ public class BestellungResource {
         if (bestellungRepository.createBestellung(kunde_id))
             return Response.ok().build();
         return Response.status(Status.NOT_FOUND).build();
-    }   
+    } 
+    
+    // http://localhost:8080/bestellungen({bestellung_id}/bestellposten)
+    @GET
+    @Path("/{bestellung_id}/bestellposten")
+    public Response getBestellposten(@PathParam("bestellung_id") Long bestellung_id) {
+        return Response.ok(bestellungRepository.getBestellposten(bestellung_id)).build();
+    }
+
+    // http://localhost:8080/bestellungen/{bestellung_id}/bestellpost
+    @POST
+    @Path("/{bestellung_id}/bestellpost")
+    public Response createBestellpost(@PathParam("bestellung_id") Long bestellung_id) {
+        if (bestellungRepository.createBestellpost(bestellung_id))
+            return Response.ok().build();
+        return Response.status(Status.NOT_FOUND).build();
+    } 
+
+
+
+
 }

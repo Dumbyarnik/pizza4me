@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
+import de.hsos.sportteam_api.entities.Bestellpost;
 import de.hsos.sportteam_api.entities.Bestellung;
 import de.hsos.sportteam_api.entities.Kunde;
 
@@ -33,6 +34,31 @@ public class BestellungRepository implements Serializable {
 
     public Collection<Bestellung> getBestellungen() {
         return em.createQuery("SELECT b FROM Bestellung b", Bestellung.class).getResultList();
+    }
+
+    public Collection<Bestellpost> getBestellposten(Long bestellung_id){
+        Bestellung bestellung = em.find(Bestellung.class, bestellung_id);
+        if (bestellung == null)
+            return null;
+        Collection<Bestellpost> bestellposten = bestellung.getBestellposten();
+        for (Bestellpost bestellpost : bestellposten) {
+            bestellpost.setBestellung(null);
+        }
+        return bestellposten;
+    }
+
+    @Transactional
+    public boolean createBestellpost(Long bestellung_id) {
+        Bestellung bestellung = em.find(Bestellung.class, bestellung_id);
+        if (bestellung == null)
+            return false;
+        
+        Bestellpost bestellpost = new Bestellpost();
+        bestellung.addBestellpost(bestellpost);
+        bestellpost.setBestellung(bestellung);
+        em.merge(bestellung);
+        return true;
+        
     }
     
 }
