@@ -38,20 +38,24 @@ public class KundenRepository implements KundenServiceInterface, Serializable {
     public Collection<Kunde> getKunden() {
         Collection <Kunde> kunden = em.createQuery("SELECT k FROM Kunde k",
             Kunde.class).getResultList();
-        
+        // deleting looping elements
         for (Kunde kunde : kunden){
             for (Bestellung bestellung : kunde.getBestellungen()){
                 bestellung.deleteKunde();
                 bestellung.deleteBestellposten();
             }
         }
-
         return kunden;
     }
 
     @Override
     public Kunde getKunde(long kundeNummer) {
-        return em.find(Kunde.class, kundeNummer);
+        Kunde kunde = em.find(Kunde.class, kundeNummer);
+        for (Bestellung bestellung : kunde.getBestellungen()){
+            bestellung.deleteKunde();
+            bestellung.deleteBestellposten();
+        }
+        return kunde;
     }
 
     @Transactional

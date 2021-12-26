@@ -27,9 +27,10 @@ public class KundenResource implements KundenResourceInterface {
 
     @Override
     public Response getKunde(Long id) {
-        if (kundenRepository.getKunde(id) == null)
+        Kunde kunde = kundenRepository.getKunde(id);
+        if (kunde == null)
             return Response.status(Status.NOT_FOUND).build();
-        return Response.ok(kundenRepository.getAdresse(id)).build();
+        return Response.ok(kunde).build();
     }
 
     @Override
