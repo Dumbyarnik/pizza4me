@@ -107,4 +107,21 @@ public class BestellungRepository implements Serializable {
 
             return false;
         }
+
+    @Transactional
+    public boolean deleteBestellpost(Long bestellung_id, 
+        Long pizza_id){
+
+        Bestellung bestellung = em.find(Bestellung.class, bestellung_id);
+        if (bestellung == null)
+            return false;
+
+        for (Bestellpost bestellpost : bestellung.getBestellposten())
+            if (bestellpost.getPizza().getId().equals(pizza_id)){
+                em.remove(bestellpost);
+                return true;
+            }
+
+            return false;
+        }
 }

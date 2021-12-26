@@ -4,6 +4,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -92,6 +93,15 @@ public class BestellungResource {
     public Response updateBestellpost(@PathParam("bestellung_id") Long bestellung_id, 
         BestellpostMinDAO bestellpostDAO) {
         if (bestellungRepository.updateBestellpost(bestellung_id, bestellpostDAO))
+            return Response.ok().build();
+        return Response.status(Status.NOT_FOUND).build();
+    }
+
+    @DELETE
+    @Path("/{bestellung_id}/bestellposten")
+    public Response deleteBestellpost(@PathParam("bestellung_id") Long bestellung_id, 
+        Long pizza_id) {
+        if (bestellungRepository.deleteBestellpost(bestellung_id, pizza_id))
             return Response.ok().build();
         return Response.status(Status.NOT_FOUND).build();
     }
