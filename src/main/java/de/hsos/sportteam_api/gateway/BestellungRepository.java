@@ -11,6 +11,8 @@ import javax.transaction.Transactional;
 import de.hsos.sportteam_api.entities.Bestellpost;
 import de.hsos.sportteam_api.entities.Bestellung;
 import de.hsos.sportteam_api.entities.Kunde;
+import de.hsos.sportteam_api.entities.Pizza;
+import de.hsos.sportteam_api.entities.DAO.BestellpostCreateDAO;
 
 @Model
 public class BestellungRepository implements Serializable {
@@ -56,14 +58,23 @@ public class BestellungRepository implements Serializable {
     }
 
     @Transactional
-    public boolean createBestellpost(Long bestellung_id) {
+    public boolean createBestellpost(Long bestellung_id, 
+        BestellpostCreateDAO bestellpostDAO) {
         Bestellung bestellung = em.find(Bestellung.class, bestellung_id);
         if (bestellung == null)
             return false;
         
+        Pizza pizza = em.find(Pizza.class, bestellpostDAO.pizzaId);
+        if (pizza == null)
+            return false;
+        
         Bestellpost bestellpost = new Bestellpost();
+        bestellpost.setPizza(pizza);
+        bestellpost.setMenge(bestellpost.getMenge());
+        // setting relationships
         bestellung.addBestellpost(bestellpost);
         bestellpost.setBestellung(bestellung);
+
         em.merge(bestellung);
         return true;
         

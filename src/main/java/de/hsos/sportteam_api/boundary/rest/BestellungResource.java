@@ -16,6 +16,7 @@ import javax.ws.rs.core.Response.Status;
 import de.hsos.sportteam_api.entities.Adresse;
 import de.hsos.sportteam_api.entities.Kunde;
 import de.hsos.sportteam_api.entities.Pizza;
+import de.hsos.sportteam_api.entities.DAO.BestellpostCreateDAO;
 import de.hsos.sportteam_api.gateway.BestellungRepository;
 import de.hsos.sportteam_api.gateway.KundenRepository;
 import de.hsos.sportteam_api.gateway.PizzaRepository;
@@ -53,7 +54,7 @@ public class BestellungResource {
         bestellungRepository.createBestellung(1L);
 
         //creating bestellposten
-        bestellungRepository.createBestellpost(1L);
+        //bestellungRepository.createBestellpost(1L);
     }
 
     // http://localhost:8080/bestellungen
@@ -81,8 +82,9 @@ public class BestellungResource {
     // http://localhost:8080/bestellungen/{bestellung_id}/bestellpost
     @POST
     @Path("/{bestellung_id}/bestellposten")
-    public Response createBestellpost(@PathParam("bestellung_id") Long bestellung_id) {
-        if (bestellungRepository.createBestellpost(bestellung_id))
+    public Response createBestellpost(@PathParam("bestellung_id") Long bestellung_id, 
+        BestellpostCreateDAO bestellpostDAO) {
+        if (bestellungRepository.createBestellpost(bestellung_id, bestellpostDAO))
             return Response.ok().build();
         return Response.status(Status.NOT_FOUND).build();
     } 
