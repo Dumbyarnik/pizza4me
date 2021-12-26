@@ -51,7 +51,7 @@ public class BestellungResource {
         pizzaRepository.persistPizza(new Pizza("Pizza con Gorgonzola", "Great pizza", 13L));
 
         // creating bestellungen
-        bestellungRepository.createBestellung(1L);
+        //bestellungRepository.createBestellung(1L);
 
         //creating bestellposten
         //bestellungRepository.createBestellpost(1L);
@@ -66,8 +66,8 @@ public class BestellungResource {
     // http://localhost:8080/bestellungen/{kunde_id}
     @POST
     @Path("/{kunde_id}")
-    public Response createBestellung(@PathParam("kunde_id") Long kunde_id) {
-        if (bestellungRepository.createBestellung(kunde_id))
+    public Response createBestellung(@PathParam("kunde_id") Long kunde_id, BestellpostCreateDAO bestellpostDAO) {
+        if (bestellungRepository.createBestellung(kunde_id, bestellpostDAO))
             return Response.ok().build();
         return Response.status(Status.NOT_FOUND).build();
     } 
