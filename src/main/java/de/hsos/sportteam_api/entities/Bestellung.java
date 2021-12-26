@@ -71,6 +71,10 @@ public class Bestellung implements Serializable {
         this.bestellposten.add(bestellpost);
     }
 
+    public void deleteBestellposten(){
+        this.bestellposten = null;
+    }
+
     public Kunde getKunde(){
         return kunde;
     }

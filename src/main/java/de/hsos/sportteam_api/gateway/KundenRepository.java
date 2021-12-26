@@ -10,6 +10,8 @@ import javax.transaction.Transactional;
 
 import de.hsos.sportteam_api.control.KundenServiceInterface;
 import de.hsos.sportteam_api.entities.Adresse;
+import de.hsos.sportteam_api.entities.Bestellpost;
+import de.hsos.sportteam_api.entities.Bestellung;
 import de.hsos.sportteam_api.entities.Kunde;
 
 @Model
@@ -34,7 +36,17 @@ public class KundenRepository implements KundenServiceInterface, Serializable {
 
     @Override
     public Collection<Kunde> getKunden() {
-        return em.createQuery("SELECT k FROM Kunde k", Kunde.class).getResultList();
+        Collection <Kunde> kunden = em.createQuery("SELECT k FROM Kunde k",
+            Kunde.class).getResultList();
+        
+        for (Kunde kunde : kunden){
+            for (Bestellung bestellung : kunde.getBestellungen()){
+                bestellung.deleteKunde();
+                bestellung.deleteBestellposten();
+            }
+        }
+
+        return kunden;
     }
 
     @Override
