@@ -12,7 +12,7 @@ import de.hsos.sportteam_api.entities.Bestellpost;
 import de.hsos.sportteam_api.entities.Bestellung;
 import de.hsos.sportteam_api.entities.Kunde;
 import de.hsos.sportteam_api.entities.Pizza;
-import de.hsos.sportteam_api.entities.DAO.BestellpostCreateDAO;
+import de.hsos.sportteam_api.entities.DAO.BestellpostMinDAO;
 
 @Model
 public class BestellungRepository implements Serializable {
@@ -23,7 +23,7 @@ public class BestellungRepository implements Serializable {
     protected EntityManager em;
 
     @Transactional
-    public boolean createBestellung(Long kunde_id, BestellpostCreateDAO bestellpostDAO){
+    public boolean createBestellung(Long kunde_id, BestellpostMinDAO bestellpostDAO){
         Kunde kunde = em.find(Kunde.class, kunde_id);
         if (kunde == null)
             return false;
@@ -70,7 +70,7 @@ public class BestellungRepository implements Serializable {
 
     @Transactional
     public boolean createBestellpost(Long bestellung_id, 
-        BestellpostCreateDAO bestellpostDAO) {
+        BestellpostMinDAO bestellpostDAO) {
         Bestellung bestellung = em.find(Bestellung.class, bestellung_id);
         if (bestellung == null)
             return false;
@@ -90,4 +90,21 @@ public class BestellungRepository implements Serializable {
         return true;
     }
     
+    @Transactional
+    public boolean updateBestellpost(Long bestellung_id, 
+        BestellpostMinDAO bestellpostDAO){
+
+        Bestellung bestellung = em.find(Bestellung.class, bestellung_id);
+        if (bestellung == null)
+            return false;
+        for (Bestellpost bestellpost : bestellung.getBestellposten())
+            if (bestellpost.getPizza().getId().equals(bestellpostDAO.pizzaId)){
+                bestellpost.setMenge(bestellpostDAO.pizzaMenge);
+                em.merge(bestellung);
+
+                return true;
+            }
+
+            return false;
+        }
 }

@@ -6,6 +6,7 @@ import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -16,7 +17,7 @@ import javax.ws.rs.core.Response.Status;
 import de.hsos.sportteam_api.entities.Adresse;
 import de.hsos.sportteam_api.entities.Kunde;
 import de.hsos.sportteam_api.entities.Pizza;
-import de.hsos.sportteam_api.entities.DAO.BestellpostCreateDAO;
+import de.hsos.sportteam_api.entities.DAO.BestellpostMinDAO;
 import de.hsos.sportteam_api.gateway.BestellungRepository;
 import de.hsos.sportteam_api.gateway.KundenRepository;
 import de.hsos.sportteam_api.gateway.PizzaRepository;
@@ -51,10 +52,7 @@ public class BestellungResource {
         pizzaRepository.persistPizza(new Pizza("Pizza con Gorgonzola", "Great pizza", 13L));
 
         // creating bestellungen
-        //bestellungRepository.createBestellung(1L);
-
-        //creating bestellposten
-        //bestellungRepository.createBestellpost(1L);
+        bestellungRepository.createBestellung(1L, new BestellpostMinDAO(1L, 20));
     }
 
     // http://localhost:8080/bestellungen
@@ -66,7 +64,7 @@ public class BestellungResource {
     // http://localhost:8080/bestellungen/{kunde_id}
     @POST
     @Path("/{kunde_id}")
-    public Response createBestellung(@PathParam("kunde_id") Long kunde_id, BestellpostCreateDAO bestellpostDAO) {
+    public Response createBestellung(@PathParam("kunde_id") Long kunde_id, BestellpostMinDAO bestellpostDAO) {
         if (bestellungRepository.createBestellung(kunde_id, bestellpostDAO))
             return Response.ok().build();
         return Response.status(Status.NOT_FOUND).build();
@@ -83,13 +81,18 @@ public class BestellungResource {
     @POST
     @Path("/{bestellung_id}/bestellposten")
     public Response createBestellpost(@PathParam("bestellung_id") Long bestellung_id, 
-        BestellpostCreateDAO bestellpostDAO) {
+        BestellpostMinDAO bestellpostDAO) {
         if (bestellungRepository.createBestellpost(bestellung_id, bestellpostDAO))
             return Response.ok().build();
         return Response.status(Status.NOT_FOUND).build();
     } 
 
-
-
-
+    @PUT
+    @Path("/{bestellung_id}/bestellposten")
+    public Response updateBestellpost(@PathParam("bestellung_id") Long bestellung_id, 
+        BestellpostMinDAO bestellpostDAO) {
+        if (bestellungRepository.updateBestellpost(bestellung_id, bestellpostDAO))
+            return Response.ok().build();
+        return Response.status(Status.NOT_FOUND).build();
+    }
 }
