@@ -91,10 +91,10 @@ public class KundenRepository implements KundenServiceInterface, Serializable {
 
     @Override
     public Adresse getAdresse(long kundeNummer) {
-        Kunde tmp = em.find(Kunde.class, kundeNummer);
-        if (tmp == null)
+        Kunde kunde = em.find(Kunde.class, kundeNummer);
+        if (kunde == null)
             return null;
-        return tmp.getAdresse();
+        return kunde.getAdresse();
     }
 
     @Transactional
