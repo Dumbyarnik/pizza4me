@@ -2,6 +2,7 @@ package de.hsos.sportteam_api.entities;
 
 import java.io.Serializable;
 
+import javax.enterprise.context.Dependent;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 @Entity
+@Dependent
 public class Adresse implements Serializable {
 
     @Id

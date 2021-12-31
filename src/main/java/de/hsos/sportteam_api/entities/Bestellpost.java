@@ -16,9 +16,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 
-@Dependent
+
 @Entity
-@Vetoed
+@Dependent
 public class Bestellpost implements Serializable {
 
     // persistence variables
