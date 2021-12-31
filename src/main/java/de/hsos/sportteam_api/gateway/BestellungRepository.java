@@ -3,6 +3,7 @@ package de.hsos.sportteam_api.gateway;
 import java.io.Serializable;
 import java.util.Collection;
 
+import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Model;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -15,6 +16,7 @@ import de.hsos.sportteam_api.entities.Pizza;
 import de.hsos.sportteam_api.entities.DAO.BestellpostMinDAO;
 
 @Model
+@Dependent
 public class BestellungRepository implements Serializable {
 
     private static final long serialVersionUID = 1L;
