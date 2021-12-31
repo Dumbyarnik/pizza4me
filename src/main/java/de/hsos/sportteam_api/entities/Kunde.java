@@ -17,9 +17,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-@Dependent
 @Entity
-@Vetoed
+@Dependent
 public class Kunde implements Serializable {
 
     // persistence variables

@@ -11,9 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
-@Dependent
 @Entity
-@Vetoed
+@Dependent
 public class Pizza implements Serializable {
 
     // persistence variables

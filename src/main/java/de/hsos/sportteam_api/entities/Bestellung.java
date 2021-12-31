@@ -17,9 +17,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-@Dependent
 @Entity
-@Vetoed
+@Dependent
 public class Bestellung implements Serializable {
 
     // persistence variables
