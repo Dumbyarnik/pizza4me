@@ -1,6 +1,8 @@
 package de.hsos.sportteam_api.boundary.rest;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -29,8 +31,12 @@ public class PizzaResource {
     public void init() {
     }
 
+    /* experimental code here */
+
+
     // http://localhost:8080/pizzas
     @GET
+    @PermitAll
     public Response getPizzas() {
         return Response.ok(pizzaRepository.getPizzas()).build();
     }
@@ -38,12 +44,15 @@ public class PizzaResource {
     // http://localhost:8080/pizzas/{id}
     @GET
     @Path("/{id}")
+    @RolesAllowed("KundIn")
     public Response getPizza(@PathParam("id") Long pizza_id) {
         Pizza pizza = pizzaRepository.getPizza(pizza_id);
         if (pizza == null)
             return Response.status(Status.NOT_FOUND).build();
         return Response.ok(pizza).build();
     }
+
+    /* experimental code here */
 
     // http://localhost:8080/pizzas/{id}/description
     @GET
