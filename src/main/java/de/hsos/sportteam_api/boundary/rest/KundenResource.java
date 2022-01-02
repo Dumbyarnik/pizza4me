@@ -16,10 +16,14 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+
+import org.eclipse.microprofile.openapi.annotations.Operation;
+
 import javax.ws.rs.core.MediaType;
 
 import de.hsos.sportteam_api.entities.Adresse;
 import de.hsos.sportteam_api.entities.Kunde;
+import de.hsos.sportteam_api.entities.DAO.AdresseDAO;
 import de.hsos.sportteam_api.gateway.KundenRepository;
 
 @ApplicationScoped
@@ -37,6 +41,7 @@ public class KundenResource {
 
     // http://localhost:8080/kunden
     @GET
+    @Operation(summary = "Admin Function")
     @PermitAll
     public Response getKunden() {
         return Response.ok(kundenRepository.getKunden()).build();
@@ -45,6 +50,7 @@ public class KundenResource {
     // http://localhost:8080/kunden/{id}
     @GET
     @Path("/{id}")
+    @Operation(summary = "Admin Function")
     @PermitAll
     public Response getKunde(@PathParam("id") Long id) {
         Kunde kunde = kundenRepository.getKunde(id);
@@ -65,6 +71,7 @@ public class KundenResource {
     // http://localhost:8080/kunden/{id}
     @DELETE
     @Path("/{id}")
+    @Operation(summary = "Admin Function")
     @PermitAll
     public Response deleteKunde(@PathParam("id") Long id) {
         if (kundenRepository.deleteKunde(id))
@@ -87,8 +94,8 @@ public class KundenResource {
     @POST
     @Path("/{id}/adresse")
     @RolesAllowed("KundIn")
-    public Response createAdresse(@PathParam("id") Long id, Adresse adresse) {
-        kundenRepository.createAdresse(id, adresse);
+    public Response createAdresse(@PathParam("id") Long id, AdresseDAO adresseDAO) {
+        kundenRepository.createAdresse(id, adresseDAO);
         return Response.ok().build();
     }
 
@@ -96,8 +103,8 @@ public class KundenResource {
     @PUT
     @Path("/{id}/adresse")
     @RolesAllowed("KundIn")
-    public Response updateAdresse(@PathParam("id") Long id, Adresse adresse) {
-        kundenRepository.updateAdresse(id, adresse);
+    public Response updateAdresse(@PathParam("id") Long id, AdresseDAO adresseDAO) {
+        kundenRepository.updateAdresse(id, adresseDAO);
         return Response.ok().build();
     }
     

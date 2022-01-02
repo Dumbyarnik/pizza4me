@@ -25,13 +25,13 @@ public class BestellungRepository implements Serializable {
     protected EntityManager em;
 
     @Transactional
-    public boolean createBestellung(Long kunde_id, BestellpostMinDAO bestellpostDAO){
+    public long createBestellung(Long kunde_id, BestellpostMinDAO bestellpostDAO){
         Kunde kunde = em.find(Kunde.class, kunde_id);
         if (kunde == null)
-            return false;
+            return 0;
         Pizza pizza = em.find(Pizza.class, bestellpostDAO.pizzaId);
         if (pizza == null)
-            return false;
+            return 0;
 
         Bestellung bestellung = new Bestellung();
         // creating bestellpost
@@ -44,7 +44,9 @@ public class BestellungRepository implements Serializable {
         bestellung.setKunde(kunde);
 
         em.persist(bestellung);
-        return true;
+        em.flush();
+
+        return bestellung.getId();
     }
 
     public Collection<Bestellung> getBestellungen() {

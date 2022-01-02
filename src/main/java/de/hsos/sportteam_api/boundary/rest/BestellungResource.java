@@ -17,6 +17,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.eclipse.microprofile.openapi.annotations.Operation;
+
 import de.hsos.sportteam_api.entities.DAO.BestellpostMinDAO;
 import de.hsos.sportteam_api.gateway.BestellungRepository;
 import de.hsos.sportteam_api.gateway.KundenRepository;
@@ -43,6 +45,7 @@ public class BestellungResource {
 
     // http://localhost:8080/bestellungen
     @GET
+    @Operation(summary = "Admin Function")
     @PermitAll
     public Response getBestellungen() {
         return Response.ok(bestellungRepository.getBestellungen()).build();
@@ -53,8 +56,10 @@ public class BestellungResource {
     @Path("/{kunde_id}")
     @RolesAllowed("KundIn")
     public Response createBestellung(@PathParam("kunde_id") Long kunde_id, BestellpostMinDAO bestellpostDAO) {
-        if (bestellungRepository.createBestellung(kunde_id, bestellpostDAO))
-            return Response.ok().build();
+        long bestellung_id = bestellungRepository.createBestellung(kunde_id, bestellpostDAO);
+
+        if (bestellung_id > 0)
+            return Response.ok(bestellung_id).build();
         return Response.status(Status.NOT_FOUND).build();
     } 
     

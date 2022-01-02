@@ -13,6 +13,7 @@ import de.hsos.sportteam_api.control.KundenServiceInterface;
 import de.hsos.sportteam_api.entities.Adresse;
 import de.hsos.sportteam_api.entities.Bestellung;
 import de.hsos.sportteam_api.entities.Kunde;
+import de.hsos.sportteam_api.entities.DAO.AdresseDAO;
 import de.hsos.sportteam_api.entities.security.UserLogin;
 
 @Model
@@ -74,9 +75,15 @@ public class KundenRepository implements KundenServiceInterface, Serializable {
 
     @Transactional
     @Override
-    public void createAdresse(long kundeNummer, Adresse adresse) {
+    public void createAdresse(long kundeNummer, AdresseDAO adresseDAO) {
         Kunde tmp = em.find(Kunde.class, kundeNummer);
         if (tmp != null){
+            Adresse adresse = new Adresse();
+            adresse.setHausnr(adresseDAO.hausnr);
+            adresse.setOrt(adresseDAO.ort);
+            adresse.setPlz(adresseDAO.plz);
+            adresse.setStrasse(adresseDAO.strasse);
+
             tmp.setAdresse(adresse);
             em.merge(tmp);
         }
@@ -84,9 +91,15 @@ public class KundenRepository implements KundenServiceInterface, Serializable {
 
     @Transactional
     @Override
-    public void updateAdresse(long kundeNummer, Adresse neueAdresse) {
+    public void updateAdresse(long kundeNummer, AdresseDAO neueAdresseDAO) {
         Kunde tmp = em.find(Kunde.class, kundeNummer);
         if (tmp != null){
+            Adresse neueAdresse = new Adresse();
+            neueAdresse.setHausnr(neueAdresseDAO.hausnr);
+            neueAdresse.setOrt(neueAdresseDAO.ort);
+            neueAdresse.setPlz(neueAdresseDAO.plz);
+            neueAdresse.setStrasse(neueAdresseDAO.strasse);
+
             tmp.setAdresse(neueAdresse);
             em.merge(tmp);
         }
