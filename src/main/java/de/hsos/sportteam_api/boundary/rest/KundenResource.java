@@ -2,6 +2,7 @@ package de.hsos.sportteam_api.boundary.rest;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -36,6 +37,7 @@ public class KundenResource {
 
     // http://localhost:8080/kunden
     @GET
+    @PermitAll
     public Response getKunden() {
         return Response.ok(kundenRepository.getKunden()).build();
     }
@@ -43,6 +45,7 @@ public class KundenResource {
     // http://localhost:8080/kunden/{id}
     @GET
     @Path("/{id}")
+    @PermitAll
     public Response getKunde(@PathParam("id") Long id) {
         Kunde kunde = kundenRepository.getKunde(id);
         if (kunde == null)
@@ -62,6 +65,7 @@ public class KundenResource {
     // http://localhost:8080/kunden/{id}
     @DELETE
     @Path("/{id}")
+    @PermitAll
     public Response deleteKunde(@PathParam("id") Long id) {
         if (kundenRepository.deleteKunde(id))
             return Response.ok().build();
@@ -71,6 +75,7 @@ public class KundenResource {
     // http://localhost:8080/kunden/{id}/adresse
     @GET
     @Path("/{id}/adresse")
+    @RolesAllowed("KundIn")
     public Response getAdresse(@PathParam("id") Long id) {
         Adresse adresse = kundenRepository.getAdresse(id);
         if (adresse != null)
@@ -81,6 +86,7 @@ public class KundenResource {
     // http://localhost:8080/kunden/{id}/adresse
     @POST
     @Path("/{id}/adresse")
+    @RolesAllowed("KundIn")
     public Response createAdresse(@PathParam("id") Long id, Adresse adresse) {
         kundenRepository.createAdresse(id, adresse);
         return Response.ok().build();
@@ -89,6 +95,7 @@ public class KundenResource {
     // http://localhost:8080/kunden/{id}/adresse
     @PUT
     @Path("/{id}/adresse")
+    @RolesAllowed("KundIn")
     public Response updateAdresse(@PathParam("id") Long id, Adresse adresse) {
         kundenRepository.updateAdresse(id, adresse);
         return Response.ok().build();
@@ -97,6 +104,7 @@ public class KundenResource {
     // http://localhost:8080/kunden/{id}
     @DELETE
     @Path("/{id}/adresse")
+    @RolesAllowed("KundIn")
     public Response deleteAdresse(@PathParam("id") Long id) {
         kundenRepository.deleteAdresse(id);
         return Response.ok().build();

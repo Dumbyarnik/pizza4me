@@ -1,6 +1,8 @@
 package de.hsos.sportteam_api.boundary.rest;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -15,9 +17,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import de.hsos.sportteam_api.entities.Adresse;
-import de.hsos.sportteam_api.entities.Kunde;
-import de.hsos.sportteam_api.entities.Pizza;
 import de.hsos.sportteam_api.entities.DAO.BestellpostMinDAO;
 import de.hsos.sportteam_api.gateway.BestellungRepository;
 import de.hsos.sportteam_api.gateway.KundenRepository;
@@ -40,23 +39,11 @@ public class BestellungResource {
     
     @PostConstruct
     public void init() {
-        // Creating kunden
-        kundenRepository.createKunde("frank", "frank");
-        kundenRepository.persistKunde(new Kunde("Martina", 
-            new Adresse ("default", "default", "default", "default")));
-        kundenRepository.persistKunde(new Kunde("Jack"));
-
-        // ctreating pizzas
-        pizzaRepository.persistPizza(new Pizza("Margarita", "Good pizza", 10L));
-        pizzaRepository.persistPizza(new Pizza("Pizza con Fungi", "Cool pizza", 12L));
-        pizzaRepository.persistPizza(new Pizza("Pizza con Gorgonzola", "Great pizza", 13L));
-
-        // creating bestellungen
-        bestellungRepository.createBestellung(1L, new BestellpostMinDAO(1L, 20));
     }
 
     // http://localhost:8080/bestellungen
     @GET
+    @PermitAll
     public Response getBestellungen() {
         return Response.ok(bestellungRepository.getBestellungen()).build();
     }
@@ -64,6 +51,7 @@ public class BestellungResource {
     // http://localhost:8080/bestellungen/{kunde_id}
     @POST
     @Path("/{kunde_id}")
+    @RolesAllowed("KundIn")
     public Response createBestellung(@PathParam("kunde_id") Long kunde_id, BestellpostMinDAO bestellpostDAO) {
         if (bestellungRepository.createBestellung(kunde_id, bestellpostDAO))
             return Response.ok().build();
@@ -73,6 +61,7 @@ public class BestellungResource {
     // http://localhost:8080/bestellungen({bestellung_id}/bestellposten)
     @GET
     @Path("/{bestellung_id}/bestellposten")
+    @RolesAllowed("KundIn")
     public Response getBestellposten(@PathParam("bestellung_id") Long bestellung_id) {
         return Response.ok(bestellungRepository.getBestellposten(bestellung_id)).build();
     }
@@ -80,6 +69,7 @@ public class BestellungResource {
     // http://localhost:8080/bestellungen/{bestellung_id}/bestellpost
     @POST
     @Path("/{bestellung_id}/bestellposten")
+    @RolesAllowed("KundIn")
     public Response createBestellpost(@PathParam("bestellung_id") Long bestellung_id, 
         BestellpostMinDAO bestellpostDAO) {
         if (bestellungRepository.createBestellpost(bestellung_id, bestellpostDAO))
@@ -89,6 +79,7 @@ public class BestellungResource {
 
     @PUT
     @Path("/{bestellung_id}/bestellposten")
+    @RolesAllowed("KundIn")
     public Response updateBestellpost(@PathParam("bestellung_id") Long bestellung_id, 
         BestellpostMinDAO bestellpostDAO) {
         if (bestellungRepository.updateBestellpost(bestellung_id, bestellpostDAO))
@@ -98,6 +89,7 @@ public class BestellungResource {
 
     @DELETE
     @Path("/{bestellung_id}/bestellposten")
+    @RolesAllowed("KundIn")
     public Response deleteBestellpost(@PathParam("bestellung_id") Long bestellung_id, 
         Long pizza_id) {
         if (bestellungRepository.deleteBestellpost(bestellung_id, pizza_id))

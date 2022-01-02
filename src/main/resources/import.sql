@@ -1,1 +1,1 @@
---insert into kunde(id, nachname) values (1, 'Jack');
+insert into pizza(name, description, price) values ('Margarita', 'Classsic', 10);

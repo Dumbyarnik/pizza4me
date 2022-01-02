@@ -2,7 +2,6 @@ package de.hsos.sportteam_api.boundary.rest;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.security.PermitAll;
-import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -16,7 +15,6 @@ import javax.ws.rs.core.Response.Status;
 
 import de.hsos.sportteam_api.entities.Pizza;
 import de.hsos.sportteam_api.gateway.PizzaRepository;
-import io.quarkus.qute.Results.NotFound;
 
 @ApplicationScoped
 @Path("/pizzas")
@@ -31,9 +29,6 @@ public class PizzaResource {
     public void init() {
     }
 
-    /* experimental code here */
-
-
     // http://localhost:8080/pizzas
     @GET
     @PermitAll
@@ -44,19 +39,18 @@ public class PizzaResource {
     // http://localhost:8080/pizzas/{id}
     @GET
     @Path("/{id}")
-    @RolesAllowed("KundIn")
+    @PermitAll
     public Response getPizza(@PathParam("id") Long pizza_id) {
         Pizza pizza = pizzaRepository.getPizza(pizza_id);
         if (pizza == null)
             return Response.status(Status.NOT_FOUND).build();
         return Response.ok(pizza).build();
     }
-
-    /* experimental code here */
-
+    
     // http://localhost:8080/pizzas/{id}/description
     @GET
     @Path("/{id}/description")
+    @PermitAll
     public Response getPizzaDescription(@PathParam("id") Long pizza_id) {
         String description = pizzaRepository.getDescription(pizza_id);
         if (description == null)
@@ -67,6 +61,7 @@ public class PizzaResource {
     // http://localhost:8080/pizzas/{id}/price
     @GET
     @Path("/{id}/price")
+    @PermitAll
     public Response getPizzaPrice(@PathParam("id") Long pizza_id) {
         Long price = pizzaRepository.getPrice(pizza_id);
         if (price == null)
