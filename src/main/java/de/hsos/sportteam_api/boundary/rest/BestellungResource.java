@@ -22,7 +22,6 @@ import de.hsos.sportteam_api.entities.DAO.BestellpostMinDAO;
 import de.hsos.sportteam_api.gateway.BestellungRepository;
 import de.hsos.sportteam_api.gateway.KundenRepository;
 import de.hsos.sportteam_api.gateway.PizzaRepository;
-import io.quarkus.qute.Results.NotFound;
 
 @ApplicationScoped
 @Path("/bestellungen")
@@ -42,7 +41,7 @@ public class BestellungResource {
     @PostConstruct
     public void init() {
         // Creating kunden
-        kundenRepository.createKunde("Alph");
+        kundenRepository.createKunde("frank", "frank");
         kundenRepository.persistKunde(new Kunde("Martina", 
             new Adresse ("default", "default", "default", "default")));
         kundenRepository.persistKunde(new Kunde("Jack"));

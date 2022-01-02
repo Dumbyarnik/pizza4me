@@ -11,9 +11,9 @@ import javax.transaction.Transactional;
 
 import de.hsos.sportteam_api.control.KundenServiceInterface;
 import de.hsos.sportteam_api.entities.Adresse;
-import de.hsos.sportteam_api.entities.Bestellpost;
 import de.hsos.sportteam_api.entities.Bestellung;
 import de.hsos.sportteam_api.entities.Kunde;
+import de.hsos.sportteam_api.entities.security.UserLogin;
 
 @Model
 @Dependent
@@ -31,7 +31,8 @@ public class KundenRepository implements KundenServiceInterface, Serializable {
 
     @Transactional
     @Override
-    public void createKunde(String name) {
+    public void createKunde(String name, String password) {
+        UserLogin.add(name, password, "KundIn");
         Kunde tmp = new Kunde(name);
         em.persist(tmp);
     }

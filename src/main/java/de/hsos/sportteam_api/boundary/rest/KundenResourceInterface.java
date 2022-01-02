@@ -13,7 +13,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import de.hsos.sportteam_api.entities.Adresse;
-import de.hsos.sportteam_api.entities.Kunde;
 
 import javax.ws.rs.PathParam;
 

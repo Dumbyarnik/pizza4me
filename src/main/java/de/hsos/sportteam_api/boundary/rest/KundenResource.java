@@ -1,73 +1,103 @@
 package de.hsos.sportteam_api.boundary.rest;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.security.PermitAll;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.MediaType;
 
 import de.hsos.sportteam_api.entities.Adresse;
 import de.hsos.sportteam_api.entities.Kunde;
 import de.hsos.sportteam_api.gateway.KundenRepository;
 
-public class KundenResource implements KundenResourceInterface {
-
+@ApplicationScoped
+@Path("/kunden")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+public class KundenResource {
 
     @Inject
     KundenRepository kundenRepository;
     
     @PostConstruct
-    public void init() {
-        
+    public void init() {  
     }
 
-    @Override
+    // http://localhost:8080/kunden
+    @GET
     public Response getKunden() {
         return Response.ok(kundenRepository.getKunden()).build();
     }
 
-    @Override
-    public Response getKunde(Long id) {
+    // http://localhost:8080/kunden/{id}
+    @GET
+    @Path("/{id}")
+    public Response getKunde(@PathParam("id") Long id) {
         Kunde kunde = kundenRepository.getKunde(id);
         if (kunde == null)
             return Response.status(Status.NOT_FOUND).build();
         return Response.ok(kunde).build();
     }
 
-    @Override
-    public Response createKunde(String name) {
-        kundenRepository.createKunde(name);
+    // http://localhost:8080/kunden
+    @POST
+    @PermitAll
+    public Response createKunde(@QueryParam("name") String name, 
+        @QueryParam("password") String password) {
+        kundenRepository.createKunde(name, password);
         return Response.ok().build();
     }
 
-    @Override
-    public Response deleteKunde(Long id) {
+    // http://localhost:8080/kunden/{id}
+    @DELETE
+    @Path("/{id}")
+    public Response deleteKunde(@PathParam("id") Long id) {
         if (kundenRepository.deleteKunde(id))
             return Response.ok().build();
         return Response.status(Status.NOT_FOUND).build();
     }
 
-    @Override
-    public Response getAdresse(Long id) {
+    // http://localhost:8080/kunden/{id}/adresse
+    @GET
+    @Path("/{id}/adresse")
+    public Response getAdresse(@PathParam("id") Long id) {
         Adresse adresse = kundenRepository.getAdresse(id);
         if (adresse != null)
             return Response.ok(adresse).build();
         return Response.status(Status.NOT_FOUND).build();
     }
 
-    @Override
-    public Response createAdresse(Long id, Adresse adresse) {
+    // http://localhost:8080/kunden/{id}/adresse
+    @POST
+    @Path("/{id}/adresse")
+    public Response createAdresse(@PathParam("id") Long id, Adresse adresse) {
         kundenRepository.createAdresse(id, adresse);
         return Response.ok().build();
     }
 
-    @Override
-    public Response updateAdresse(Long id, Adresse adresse) {
+    // http://localhost:8080/kunden/{id}/adresse
+    @PUT
+    @Path("/{id}/adresse")
+    public Response updateAdresse(@PathParam("id") Long id, Adresse adresse) {
         kundenRepository.updateAdresse(id, adresse);
         return Response.ok().build();
     }
     
-    @Override
-    public Response deleteAdresse(Long id) {
+    // http://localhost:8080/kunden/{id}
+    @DELETE
+    @Path("/{id}/adresse")
+    public Response deleteAdresse(@PathParam("id") Long id) {
         kundenRepository.deleteAdresse(id);
         return Response.ok().build();
     }

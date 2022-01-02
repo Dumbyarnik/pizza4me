@@ -3,9 +3,7 @@ package de.hsos.sportteam_api.entities;
 import java.io.Serializable;
 
 import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Vetoed;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
