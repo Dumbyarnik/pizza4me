@@ -30,7 +30,7 @@ public class Bestellpost implements Serializable {
     @JoinColumn(name = "bestellung_id", nullable = false)
     private Bestellung bestellung;
 
-    @OneToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "pizza_id", referencedColumnName = "id")
     private Pizza pizza;
     

@@ -39,10 +39,10 @@ public class BestellungRepository implements Serializable {
         bestellpost.setPizza(pizza);
         bestellpost.setMenge(bestellpostDAO.pizzaMenge);
         // creating relationships
-        bestellung.addBestellpost(bestellpost);
-        bestellpost.setBestellung(bestellung);
+        //bestellung.addBestellpost(bestellpost);
         bestellung.setKunde(kunde);
-
+        bestellpost.setBestellung(bestellung);
+        
         em.persist(bestellung);
         em.flush();
 
@@ -87,10 +87,10 @@ public class BestellungRepository implements Serializable {
         bestellpost.setPizza(pizza);
         bestellpost.setMenge(bestellpostDAO.pizzaMenge);
         // setting relationships
-        bestellung.addBestellpost(bestellpost);
+        //bestellung.addBestellpost(bestellpost);
         bestellpost.setBestellung(bestellung);
 
-        em.merge(bestellung);
+        em.persist(bestellpost);
         return true;
     }
     
