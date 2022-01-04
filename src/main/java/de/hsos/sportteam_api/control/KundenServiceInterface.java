@@ -13,7 +13,7 @@ import de.hsos.sportteam_api.entities.DAO.AdresseDAO;
 @ApplicationScoped
 @Singleton
 public interface KundenServiceInterface {
-    void createKunde(String name, String password);
+    boolean createKunde(String name, String password);
     Collection<Kunde> getKunden();
     Kunde getKunde(long kundeNummer);
     boolean deleteKunde(long kundeNummer);

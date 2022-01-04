@@ -1,5 +1,6 @@
 package de.hsos.sportteam_api.entities.security;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 import io.quarkus.elytron.security.common.BcryptUtil;
@@ -13,6 +14,7 @@ import io.quarkus.security.jpa.Username;
 @UserDefinition
 public class UserLogin extends PanacheEntity {
     @Username
+    @Column(unique = true)
     public String username;
     @Password
     public String password;

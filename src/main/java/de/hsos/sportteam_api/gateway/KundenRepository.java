@@ -32,10 +32,16 @@ public class KundenRepository implements KundenServiceInterface, Serializable {
 
     @Transactional
     @Override
-    public void createKunde(String name, String password) {
-        UserLogin.add(name, password, "KundIn");
+    public boolean createKunde(String name, String password) {
         Kunde tmp = new Kunde(name);
-        em.persist(tmp);
+        try {
+            UserLogin.add(name, password, "KundIn");
+            em.persist(tmp);
+        }
+        catch (Exception e){
+            return false;
+        }
+        return true;        
     }
 
     @Override

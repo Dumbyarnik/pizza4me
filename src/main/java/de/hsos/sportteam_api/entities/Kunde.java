@@ -26,7 +26,7 @@ public class Kunde implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     
-    @Column(nullable = true)
+    @Column(nullable = true, unique = true)
     private String nachname;
 
     @Column(nullable = true)

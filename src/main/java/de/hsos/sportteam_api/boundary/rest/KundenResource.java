@@ -64,8 +64,9 @@ public class KundenResource {
     @PermitAll
     public Response createKunde(@QueryParam("name") String name, 
         @QueryParam("password") String password) {
-        kundenRepository.createKunde(name, password);
-        return Response.ok().build();
+        if (kundenRepository.createKunde(name, password))
+            return Response.ok().build();
+        return Response.ok("Username existiert").build();
     }
 
     // http://localhost:8080/kunden/{id}
