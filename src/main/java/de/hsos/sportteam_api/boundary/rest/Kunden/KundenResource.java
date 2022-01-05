@@ -21,9 +21,9 @@ import org.eclipse.microprofile.openapi.annotations.Operation;
 
 import javax.ws.rs.core.MediaType;
 
-import de.hsos.sportteam_api.entities.Adresse;
-import de.hsos.sportteam_api.entities.Kunde;
 import de.hsos.sportteam_api.entities.DAO.AdresseDAO;
+import de.hsos.sportteam_api.entities.basic.Adresse;
+import de.hsos.sportteam_api.entities.basic.Kunde;
 import de.hsos.sportteam_api.gateway.kunden.KundenRepository;
 
 @ApplicationScoped

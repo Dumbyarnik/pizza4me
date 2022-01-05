@@ -9,11 +9,11 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
-import de.hsos.sportteam_api.entities.Bestellpost;
-import de.hsos.sportteam_api.entities.Bestellung;
-import de.hsos.sportteam_api.entities.Kunde;
-import de.hsos.sportteam_api.entities.Pizza;
 import de.hsos.sportteam_api.entities.DAO.BestellpostMinDAO;
+import de.hsos.sportteam_api.entities.basic.Bestellpost;
+import de.hsos.sportteam_api.entities.basic.Bestellung;
+import de.hsos.sportteam_api.entities.basic.Kunde;
+import de.hsos.sportteam_api.entities.basic.Pizza;
 
 @Model
 @Dependent

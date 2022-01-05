@@ -9,7 +9,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
-import de.hsos.sportteam_api.entities.Pizza;
+import de.hsos.sportteam_api.entities.basic.Pizza;
 
 @Model
 @Dependent

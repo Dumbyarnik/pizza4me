@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import de.hsos.sportteam_api.entities.Pizza;
+import de.hsos.sportteam_api.entities.basic.Pizza;
 import de.hsos.sportteam_api.gateway.PizzaRepository;
 
 @ApplicationScoped

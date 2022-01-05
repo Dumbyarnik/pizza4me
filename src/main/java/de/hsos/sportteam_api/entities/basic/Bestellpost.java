@@ -1,4 +1,4 @@
-package de.hsos.sportteam_api.entities;
+package de.hsos.sportteam_api.entities.basic;
 
 import java.io.Serializable;
 
