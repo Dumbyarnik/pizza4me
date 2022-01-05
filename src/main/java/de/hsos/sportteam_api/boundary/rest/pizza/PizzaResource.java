@@ -1,4 +1,4 @@
-package de.hsos.sportteam_api.boundary.rest;
+package de.hsos.sportteam_api.boundary.rest.pizza;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.security.PermitAll;
