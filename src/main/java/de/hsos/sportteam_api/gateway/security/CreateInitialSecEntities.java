@@ -1,4 +1,4 @@
-package de.hsos.sportteam_api.gateway;
+package de.hsos.sportteam_api.gateway.security;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -6,7 +6,7 @@ import javax.enterprise.event.Observes;
 import javax.transaction.Transactional;
 
 import de.hsos.sportteam_api.entities.security.UserLogin;
-import de.hsos.sportteam_api.gateway.Kunden.KundenRepository;
+import de.hsos.sportteam_api.gateway.kunden.KundenRepository;
 import io.quarkus.runtime.StartupEvent;
 
 

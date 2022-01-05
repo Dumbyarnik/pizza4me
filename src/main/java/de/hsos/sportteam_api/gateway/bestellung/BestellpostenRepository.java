@@ -1,4 +1,4 @@
-package de.hsos.sportteam_api.gateway;
+package de.hsos.sportteam_api.gateway.bestellung;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -17,49 +17,12 @@ import de.hsos.sportteam_api.entities.DAO.BestellpostMinDAO;
 
 @Model
 @Dependent
-public class BestellungRepository implements Serializable {
+public class BestellpostenRepository implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Inject
     protected EntityManager em;
-
-    @Transactional
-    public long createBestellung(Long kunde_id, BestellpostMinDAO bestellpostDAO){
-        Kunde kunde = em.find(Kunde.class, kunde_id);
-        if (kunde == null)
-            return 0;
-        Pizza pizza = em.find(Pizza.class, bestellpostDAO.pizzaId);
-        if (pizza == null)
-            return 0;
-
-        Bestellung bestellung = new Bestellung();
-        // creating bestellpost
-        Bestellpost bestellpost = new Bestellpost();
-        bestellpost.setPizza(pizza);
-        bestellpost.setMenge(bestellpostDAO.pizzaMenge);
-        // creating relationships
-        bestellung.addBestellpost(bestellpost);
-        bestellung.setKunde(kunde);
-        bestellpost.setBestellung(bestellung);
-        
-        em.persist(bestellung);
-        em.flush();
-
-        return bestellung.getId();
-    }
-
-    public Collection<Bestellung> getBestellungen() {
-        Collection<Bestellung> bestellungen = 
-            em.createQuery("SELECT b FROM Bestellung b", Bestellung.class).getResultList();
-        for (Bestellung bestellung : bestellungen) {
-            for (Bestellpost bestellpost : bestellung.getBestellposten()) {
-                bestellpost.deleteBestellung();
-            }
-            bestellung.deleteKunde();
-        }
-        return bestellungen;
-    }
 
     public Collection<Bestellpost> getBestellposten(Long bestellung_id){
         Bestellung bestellung = em.find(Bestellung.class, bestellung_id);
@@ -108,9 +71,8 @@ public class BestellungRepository implements Serializable {
 
                 return true;
             }
-
-            return false;
-        }
+        return false;
+    }
 
     @Transactional
     public boolean deleteBestellpost(Long bestellung_id, 
@@ -126,6 +88,7 @@ public class BestellungRepository implements Serializable {
                 return true;
             }
 
-            return false;
-        }
+        return false;
+    }
+    
 }

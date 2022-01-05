@@ -1,4 +1,4 @@
-package de.hsos.sportteam_api.boundary.rest.Kunden;
+package de.hsos.sportteam_api.boundary.rest.kunden;
 
 import java.security.Principal;
 
@@ -28,8 +28,8 @@ import javax.ws.rs.core.MediaType;
 import de.hsos.sportteam_api.entities.Adresse;
 import de.hsos.sportteam_api.entities.Kunde;
 import de.hsos.sportteam_api.entities.DAO.AdresseDAO;
-import de.hsos.sportteam_api.gateway.Kunden.KundenAdresseRepository;
-import de.hsos.sportteam_api.gateway.Kunden.KundenRepository;
+import de.hsos.sportteam_api.gateway.kunden.KundenAdresseRepository;
+import de.hsos.sportteam_api.gateway.kunden.KundenRepository;
 
 @ApplicationScoped
 @Path("/kunden/adresse")

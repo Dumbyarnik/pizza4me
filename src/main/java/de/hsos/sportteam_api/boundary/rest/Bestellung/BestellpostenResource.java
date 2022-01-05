@@ -1,4 +1,4 @@
-package de.hsos.sportteam_api.boundary.rest.Bestellung;
+package de.hsos.sportteam_api.boundary.rest.bestellung;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.security.PermitAll;
@@ -20,9 +20,9 @@ import javax.ws.rs.core.Response.Status;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 
 import de.hsos.sportteam_api.entities.DAO.BestellpostMinDAO;
-import de.hsos.sportteam_api.gateway.BestellungRepository;
 import de.hsos.sportteam_api.gateway.PizzaRepository;
-import de.hsos.sportteam_api.gateway.Kunden.KundenRepository;
+import de.hsos.sportteam_api.gateway.bestellung.BestellpostenRepository;
+import de.hsos.sportteam_api.gateway.kunden.KundenRepository;
 
 @ApplicationScoped
 @Path("/bestellungen/{bestellung_id}/bestellposten")
@@ -30,7 +30,7 @@ import de.hsos.sportteam_api.gateway.Kunden.KundenRepository;
 @Consumes(MediaType.APPLICATION_JSON)
 public class BestellpostenResource {
     @Inject
-    BestellungRepository bestellungRepository;
+    BestellpostenRepository bestellpostenRepository;
     
     @PostConstruct
     public void init() {
@@ -40,7 +40,7 @@ public class BestellpostenResource {
     @GET
     @RolesAllowed("KundIn")
     public Response getBestellposten(@PathParam("bestellung_id") Long bestellung_id) {
-        return Response.ok(bestellungRepository.getBestellposten(bestellung_id)).build();
+        return Response.ok(bestellpostenRepository.getBestellposten(bestellung_id)).build();
     }
 
     // http://localhost:8080/bestellungen/{bestellung_id}/bestellpost
@@ -48,7 +48,7 @@ public class BestellpostenResource {
     @RolesAllowed("KundIn")
     public Response createBestellpost(@PathParam("bestellung_id") Long bestellung_id, 
         BestellpostMinDAO bestellpostDAO) {
-        if (bestellungRepository.createBestellpost(bestellung_id, bestellpostDAO))
+        if (bestellpostenRepository.createBestellpost(bestellung_id, bestellpostDAO))
             return Response.ok().build();
         return Response.status(Status.NOT_FOUND).build();
     } 
@@ -57,7 +57,7 @@ public class BestellpostenResource {
     @RolesAllowed("KundIn")
     public Response updateBestellpost(@PathParam("bestellung_id") Long bestellung_id, 
         BestellpostMinDAO bestellpostDAO) {
-        if (bestellungRepository.updateBestellpost(bestellung_id, bestellpostDAO))
+        if (bestellpostenRepository.updateBestellpost(bestellung_id, bestellpostDAO))
             return Response.ok().build();
         return Response.status(Status.NOT_FOUND).build();
     }
@@ -66,7 +66,7 @@ public class BestellpostenResource {
     @RolesAllowed("KundIn")
     public Response deleteBestellpost(@PathParam("bestellung_id") Long bestellung_id, 
         Long pizza_id) {
-        if (bestellungRepository.deleteBestellpost(bestellung_id, pizza_id))
+        if (bestellpostenRepository.deleteBestellpost(bestellung_id, pizza_id))
             return Response.ok().build();
         return Response.status(Status.NOT_FOUND).build();
     }

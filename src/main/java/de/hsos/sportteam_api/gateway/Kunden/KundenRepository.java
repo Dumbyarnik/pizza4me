@@ -1,4 +1,4 @@
-package de.hsos.sportteam_api.gateway.Kunden;
+package de.hsos.sportteam_api.gateway.kunden;
 
 import java.io.Serializable;
 import java.util.Collection;

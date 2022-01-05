@@ -1,4 +1,6 @@
-package de.hsos.sportteam_api.boundary.rest.Bestellung;
+package de.hsos.sportteam_api.boundary.rest.bestellung;
+
+import java.security.Principal;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.security.PermitAll;
@@ -13,16 +15,18 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.Response.Status;
 
 import org.eclipse.microprofile.openapi.annotations.Operation;
 
 import de.hsos.sportteam_api.entities.DAO.BestellpostMinDAO;
-import de.hsos.sportteam_api.gateway.BestellungRepository;
+import de.hsos.sportteam_api.gateway.bestellung.BestellungRepository;
 import de.hsos.sportteam_api.gateway.PizzaRepository;
-import de.hsos.sportteam_api.gateway.Kunden.KundenRepository;
+import de.hsos.sportteam_api.gateway.kunden.KundenRepository;
 
 @ApplicationScoped
 @Path("/bestellungen")
@@ -45,12 +49,15 @@ public class BestellungResource {
         return Response.ok(bestellungRepository.getBestellungen()).build();
     }
 
-    // http://localhost:8080/bestellungen/{kunde_id}
+    // http://localhost:8080/bestellungen/
     @POST
-    @Path("/{kunde_id}")
     @RolesAllowed("KundIn")
-    public Response createBestellung(@PathParam("kunde_id") Long kunde_id, BestellpostMinDAO bestellpostDAO) {
-        long bestellung_id = bestellungRepository.createBestellung(kunde_id, bestellpostDAO);
+    public Response createBestellung(@Context SecurityContext sec, BestellpostMinDAO bestellpostDAO) {
+        Principal user = sec.getUserPrincipal();
+        String username = user.getName();
+        
+        long bestellung_id = bestellungRepository
+            .createBestellung(username, bestellpostDAO);
 
         if (bestellung_id > 0)
             return Response.ok(bestellung_id).build();
