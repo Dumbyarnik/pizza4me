@@ -1,4 +1,4 @@
-package de.hsos.sportteam_api.boundary.rest;
+package de.hsos.sportteam_api.boundary.rest.Kunden;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.security.PermitAll;
@@ -78,44 +78,5 @@ public class KundenResource {
         if (kundenRepository.deleteKunde(id))
             return Response.ok().build();
         return Response.status(Status.NOT_FOUND).build();
-    }
-
-    // http://localhost:8080/kunden/{id}/adresse
-    @GET
-    @Path("/{id}/adresse")
-    @RolesAllowed("KundIn")
-    public Response getAdresse(@PathParam("id") Long id) {
-        Adresse adresse = kundenRepository.getAdresse(id);
-        if (adresse != null)
-            return Response.ok(adresse).build();
-        return Response.status(Status.NOT_FOUND).build();
-    }
-
-    // http://localhost:8080/kunden/{id}/adresse
-    @POST
-    @Path("/{id}/adresse")
-    @RolesAllowed("KundIn")
-    public Response createAdresse(@PathParam("id") Long id, AdresseDAO adresseDAO) {
-        kundenRepository.createAdresse(id, adresseDAO);
-        return Response.ok().build();
-    }
-
-    // http://localhost:8080/kunden/{id}/adresse
-    @PUT
-    @Path("/{id}/adresse")
-    @RolesAllowed("KundIn")
-    public Response updateAdresse(@PathParam("id") Long id, AdresseDAO adresseDAO) {
-        kundenRepository.updateAdresse(id, adresseDAO);
-        return Response.ok().build();
-    }
-    
-    // http://localhost:8080/kunden/{id}
-    @DELETE
-    @Path("/{id}/adresse")
-    @RolesAllowed("KundIn")
-    public Response deleteAdresse(@PathParam("id") Long id) {
-        kundenRepository.deleteAdresse(id);
-        return Response.ok().build();
-    }
-    
+    }    
 }

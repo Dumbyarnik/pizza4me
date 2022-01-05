@@ -32,12 +32,6 @@ public class BestellungResource {
 
     @Inject
     BestellungRepository bestellungRepository;
-
-    @Inject
-    KundenRepository kundenRepository;
-
-    @Inject
-    PizzaRepository pizzaRepository;
     
     @PostConstruct
     public void init() {
@@ -62,43 +56,4 @@ public class BestellungResource {
             return Response.ok(bestellung_id).build();
         return Response.status(Status.NOT_FOUND).build();
     } 
-    
-    // http://localhost:8080/bestellungen({bestellung_id}/bestellposten)
-    @GET
-    @Path("/{bestellung_id}/bestellposten")
-    @RolesAllowed("KundIn")
-    public Response getBestellposten(@PathParam("bestellung_id") Long bestellung_id) {
-        return Response.ok(bestellungRepository.getBestellposten(bestellung_id)).build();
-    }
-
-    // http://localhost:8080/bestellungen/{bestellung_id}/bestellpost
-    @POST
-    @Path("/{bestellung_id}/bestellposten")
-    @RolesAllowed("KundIn")
-    public Response createBestellpost(@PathParam("bestellung_id") Long bestellung_id, 
-        BestellpostMinDAO bestellpostDAO) {
-        if (bestellungRepository.createBestellpost(bestellung_id, bestellpostDAO))
-            return Response.ok().build();
-        return Response.status(Status.NOT_FOUND).build();
-    } 
-
-    @PUT
-    @Path("/{bestellung_id}/bestellposten")
-    @RolesAllowed("KundIn")
-    public Response updateBestellpost(@PathParam("bestellung_id") Long bestellung_id, 
-        BestellpostMinDAO bestellpostDAO) {
-        if (bestellungRepository.updateBestellpost(bestellung_id, bestellpostDAO))
-            return Response.ok().build();
-        return Response.status(Status.NOT_FOUND).build();
-    }
-
-    @DELETE
-    @Path("/{bestellung_id}/bestellposten")
-    @RolesAllowed("KundIn")
-    public Response deleteBestellpost(@PathParam("bestellung_id") Long bestellung_id, 
-        Long pizza_id) {
-        if (bestellungRepository.deleteBestellpost(bestellung_id, pizza_id))
-            return Response.ok().build();
-        return Response.status(Status.NOT_FOUND).build();
-    }
 }

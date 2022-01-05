@@ -39,7 +39,7 @@ public class BestellungRepository implements Serializable {
         bestellpost.setPizza(pizza);
         bestellpost.setMenge(bestellpostDAO.pizzaMenge);
         // creating relationships
-        //bestellung.addBestellpost(bestellpost);
+        bestellung.addBestellpost(bestellpost);
         bestellung.setKunde(kunde);
         bestellpost.setBestellung(bestellung);
         
