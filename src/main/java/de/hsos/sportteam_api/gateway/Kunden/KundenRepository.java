@@ -64,6 +64,19 @@ public class KundenRepository implements Serializable {
         return kunde;
     }
 
+    public Kunde getKunde(String username) {
+        Kunde kunde = em.createQuery("Select k FROM Kunde k where " + 
+            "k.nachname LIKE :username",
+            Kunde.class)
+            .setParameter("username", username)
+            .getSingleResult();
+        for (Bestellung bestellung : kunde.getBestellungen()){
+            bestellung.deleteKunde();
+            bestellung.deleteBestellposten();
+        }
+        return kunde;
+    }
+
     @Transactional
     public boolean deleteKunde(long kundeNummer) {
         Kunde tmp = em.find(Kunde.class, kundeNummer);
