@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Vetoed;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,7 +26,7 @@ public class Kunde implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     
-    @Column(nullable = true)
+    @Column(nullable = true, unique = true)
     private String nachname;
 
     @Column(nullable = true)

@@ -1,4 +1,4 @@
-package de.hsos.sportteam_api.gateway;
+package de.hsos.sportteam_api.gateway.kunden;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -9,15 +9,15 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
-import de.hsos.sportteam_api.control.KundenServiceInterface;
 import de.hsos.sportteam_api.entities.Adresse;
-import de.hsos.sportteam_api.entities.Bestellpost;
 import de.hsos.sportteam_api.entities.Bestellung;
 import de.hsos.sportteam_api.entities.Kunde;
+import de.hsos.sportteam_api.entities.DAO.AdresseDAO;
+import de.hsos.sportteam_api.entities.security.UserLogin;
 
 @Model
 @Dependent
-public class KundenRepository implements KundenServiceInterface, Serializable {
+public class KundenRepository implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -30,13 +30,18 @@ public class KundenRepository implements KundenServiceInterface, Serializable {
     }
 
     @Transactional
-    @Override
-    public void createKunde(String name) {
+    public boolean createKunde(String name, String password) {
         Kunde tmp = new Kunde(name);
-        em.persist(tmp);
+        try {
+            UserLogin.add(name, password, "KundIn");
+            em.persist(tmp);
+        }
+        catch (Exception e){
+            return false;
+        }
+        return true;        
     }
 
-    @Override
     public Collection<Kunde> getKunden() {
         Collection <Kunde> kunden = em.createQuery("SELECT k FROM Kunde k",
             Kunde.class).getResultList();
@@ -50,7 +55,6 @@ public class KundenRepository implements KundenServiceInterface, Serializable {
         return kunden;
     }
 
-    @Override
     public Kunde getKunde(long kundeNummer) {
         Kunde kunde = em.find(Kunde.class, kundeNummer);
         for (Bestellung bestellung : kunde.getBestellungen()){
@@ -61,7 +65,6 @@ public class KundenRepository implements KundenServiceInterface, Serializable {
     }
 
     @Transactional
-    @Override
     public boolean deleteKunde(long kundeNummer) {
         Kunde tmp = em.find(Kunde.class, kundeNummer);
         if (tmp != null){
@@ -69,46 +72,5 @@ public class KundenRepository implements KundenServiceInterface, Serializable {
             return true;
         }
         return false;
-    }
-
-    @Transactional
-    @Override
-    public void createAdresse(long kundeNummer, Adresse adresse) {
-        Kunde tmp = em.find(Kunde.class, kundeNummer);
-        if (tmp != null){
-            tmp.setAdresse(adresse);
-            em.merge(tmp);
-        }
-    }
-
-    @Transactional
-    @Override
-    public void updateAdresse(long kundeNummer, Adresse neueAdresse) {
-        Kunde tmp = em.find(Kunde.class, kundeNummer);
-        if (tmp != null){
-            tmp.setAdresse(neueAdresse);
-            em.merge(tmp);
-        }
-    }
-
-    @Override
-    public Adresse getAdresse(long kundeNummer) {
-        Kunde kunde = em.find(Kunde.class, kundeNummer);
-        if (kunde == null)
-            return null;
-        return kunde.getAdresse();
-    }
-
-    @Transactional
-    @Override
-    public boolean deleteAdresse(long kundeNummer) {
-        Kunde tmp = em.find(Kunde.class, kundeNummer);
-        if (tmp != null){
-            tmp.deleteAdresse();
-            em.merge(tmp);
-            return true;
-        }
-        return false;
-    }
-    
+    }    
 }

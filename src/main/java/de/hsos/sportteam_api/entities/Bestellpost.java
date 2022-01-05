@@ -3,9 +3,7 @@ package de.hsos.sportteam_api.entities;
 import java.io.Serializable;
 
 import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Vetoed;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -32,7 +30,7 @@ public class Bestellpost implements Serializable {
     @JoinColumn(name = "bestellung_id", nullable = false)
     private Bestellung bestellung;
 
-    @OneToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "pizza_id", referencedColumnName = "id")
     private Pizza pizza;
     
