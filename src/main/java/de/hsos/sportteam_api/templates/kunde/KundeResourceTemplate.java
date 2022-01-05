@@ -10,6 +10,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
@@ -58,18 +59,15 @@ public class KundeResourceTemplate {
 
         return this.kundeTemplate.data("kunde", kunde);
     }
-
-    // http://localhost:8080/kunden/template
-    @POST
+    
+    // http://localhost:8080/kunden/template/adresse
+    @DELETE
     @RolesAllowed("KundIn")
-    public TemplateInstance createAdresse(@Context SecurityContext sec, AdresseDAO adresseDAO) {
-
+    public Response deleteAdresse(@Context SecurityContext sec) {
         Principal user = sec.getUserPrincipal();
         String username = user.getName();
-        Kunde kunde = this.kundenRepository.getKunde(username);
 
-        kundenAdresseRepository.createAdresse(username, adresseDAO);
-        return this.kundeTemplate.data("kunde", kunde);
+        kundenAdresseRepository.deleteAdresse(username);
+        return Response.ok().build();
     }
-    
 }
