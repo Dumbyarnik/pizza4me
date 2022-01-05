@@ -6,6 +6,7 @@ import javax.enterprise.event.Observes;
 import javax.transaction.Transactional;
 
 import de.hsos.sportteam_api.entities.security.UserLogin;
+import de.hsos.sportteam_api.gateway.Kunden.KundenRepository;
 import io.quarkus.runtime.StartupEvent;
 
 

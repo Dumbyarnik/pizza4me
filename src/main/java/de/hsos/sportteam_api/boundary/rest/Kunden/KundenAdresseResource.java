@@ -1,5 +1,7 @@
 package de.hsos.sportteam_api.boundary.rest.Kunden;
 
+import java.security.Principal;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
@@ -15,60 +17,75 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.Response.Status;
 
 import org.eclipse.microprofile.openapi.annotations.Operation;
 
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import de.hsos.sportteam_api.entities.Adresse;
 import de.hsos.sportteam_api.entities.Kunde;
 import de.hsos.sportteam_api.entities.DAO.AdresseDAO;
-import de.hsos.sportteam_api.gateway.KundenRepository;
+import de.hsos.sportteam_api.gateway.Kunden.KundenAdresseRepository;
+import de.hsos.sportteam_api.gateway.Kunden.KundenRepository;
 
 @ApplicationScoped
-@Path("/kunden/{id}/adresse")
+@Path("/kunden/adresse")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class KundenAdresseResource {
     @Inject
-    KundenRepository kundenRepository;
+    KundenAdresseRepository kundenAdresseRepository;
     
     @PostConstruct
     public void init() {  
     }
 
-    // http://localhost:8080/kunden/{id}/adresse
+    // http://localhost:8080/kunden/adresse
     @GET
     @RolesAllowed("KundIn")
-    public Response getAdresse(@PathParam("id") Long id) {
-        Adresse adresse = kundenRepository.getAdresse(id);
+    public Response getAdresse(@Context SecurityContext sec) {
+        Principal user = sec.getUserPrincipal();
+        String username = user.getName();
+
+        Adresse adresse = kundenAdresseRepository.getAdresse(username);
         if (adresse != null)
             return Response.ok(adresse).build();
         return Response.status(Status.NOT_FOUND).build();
     }
 
-    // http://localhost:8080/kunden/{id}/adresse
+    // http://localhost:8080/kunden/adresse
     @POST
     @RolesAllowed("KundIn")
-    public Response createAdresse(@PathParam("id") Long id, AdresseDAO adresseDAO) {
-        kundenRepository.createAdresse(id, adresseDAO);
+    public Response createAdresse(@Context SecurityContext sec, AdresseDAO adresseDAO) {
+        Principal user = sec.getUserPrincipal();
+        String username = user.getName();
+
+        kundenAdresseRepository.createAdresse(username, adresseDAO);
         return Response.ok().build();
     }
 
-    // http://localhost:8080/kunden/{id}/adresse
+    // http://localhost:8080/kunden/adresse
     @PUT
     @RolesAllowed("KundIn")
-    public Response updateAdresse(@PathParam("id") Long id, AdresseDAO adresseDAO) {
-        kundenRepository.updateAdresse(id, adresseDAO);
+    public Response updateAdresse(@Context SecurityContext sec, AdresseDAO adresseDAO) {
+        Principal user = sec.getUserPrincipal();
+        String username = user.getName();
+
+        kundenAdresseRepository.updateAdresse(username, adresseDAO);
         return Response.ok().build();
     }
     
-    // http://localhost:8080/kunden/{id}
+    // http://localhost:8080/kunden/adresse
     @DELETE
     @RolesAllowed("KundIn")
-    public Response deleteAdresse(@PathParam("id") Long id) {
-        kundenRepository.deleteAdresse(id);
+    public Response deleteAdresse(@Context SecurityContext sec) {
+        Principal user = sec.getUserPrincipal();
+        String username = user.getName();
+
+        kundenAdresseRepository.deleteAdresse(username);
         return Response.ok().build();
     }
 }

@@ -1,4 +1,4 @@
-package de.hsos.sportteam_api.boundary.rest;
+package de.hsos.sportteam_api.boundary.rest.Bestellung;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.security.PermitAll;
@@ -21,8 +21,8 @@ import org.eclipse.microprofile.openapi.annotations.Operation;
 
 import de.hsos.sportteam_api.entities.DAO.BestellpostMinDAO;
 import de.hsos.sportteam_api.gateway.BestellungRepository;
-import de.hsos.sportteam_api.gateway.KundenRepository;
 import de.hsos.sportteam_api.gateway.PizzaRepository;
+import de.hsos.sportteam_api.gateway.Kunden.KundenRepository;
 
 @ApplicationScoped
 @Path("/bestellungen")

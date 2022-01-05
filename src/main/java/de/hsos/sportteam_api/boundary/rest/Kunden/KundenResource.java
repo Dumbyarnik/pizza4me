@@ -24,7 +24,7 @@ import javax.ws.rs.core.MediaType;
 import de.hsos.sportteam_api.entities.Adresse;
 import de.hsos.sportteam_api.entities.Kunde;
 import de.hsos.sportteam_api.entities.DAO.AdresseDAO;
-import de.hsos.sportteam_api.gateway.KundenRepository;
+import de.hsos.sportteam_api.gateway.Kunden.KundenRepository;
 
 @ApplicationScoped
 @Path("/kunden")
