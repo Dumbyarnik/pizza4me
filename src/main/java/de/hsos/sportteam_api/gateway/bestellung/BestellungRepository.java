@@ -2,6 +2,7 @@ package de.hsos.sportteam_api.gateway.bestellung;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Model;
@@ -54,9 +55,30 @@ public class BestellungRepository implements Serializable {
         return bestellung.getId();
     }
 
+    @Transactional
+    public long createBestellung(String username){
+        Kunde kunde = em.createQuery("Select k FROM Kunde k where " + 
+            "k.nachname LIKE :username",
+            Kunde.class)
+            .setParameter("username", username)
+            .getSingleResult();
+        
+        if (kunde == null)
+            return 0;
+
+
+        Bestellung bestellung = new Bestellung();
+        // creating relationships
+        bestellung.setKunde(kunde);
+        em.persist(bestellung);
+        em.flush();
+        return bestellung.getId();
+    }
+
     public Collection<Bestellung> getBestellungen() {
         Collection<Bestellung> bestellungen = 
-            em.createQuery("SELECT b FROM Bestellung b", Bestellung.class).getResultList();
+            em.createQuery("SELECT b FROM Bestellung b", Bestellung.class)
+            .getResultList();
         for (Bestellung bestellung : bestellungen) {
             for (Bestellpost bestellpost : bestellung.getBestellposten()) {
                 bestellpost.deleteBestellung();
@@ -64,5 +86,32 @@ public class BestellungRepository implements Serializable {
             bestellung.deleteKunde();
         }
         return bestellungen;
+    }
+
+    public Bestellung getLastBestellung(String username) {
+        Kunde kunde = em.createQuery("Select k FROM Kunde k where " + 
+            "k.nachname LIKE :username", Kunde.class)
+            .setParameter("username", username)
+            .getSingleResult();
+        
+        if (kunde == null)
+            return null;
+
+        List<Bestellung> bestellungen = 
+            em.createQuery("SELECT b FROM Bestellung b where " + 
+            "b.kunde.id LIKE :b_id", Bestellung.class)
+            .setParameter("b_id", kunde.getId())
+            .getResultList();
+
+        if (bestellungen.size() == 0)
+            return null;
+
+        for (Bestellung bestellung : bestellungen) {
+            for (Bestellpost bestellpost : bestellung.getBestellposten()) {
+                bestellpost.deleteBestellung();
+            }
+            bestellung.deleteKunde();
+        }
+        return bestellungen.get(bestellungen.size()-1);
     }
 }

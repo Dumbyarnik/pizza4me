@@ -86,6 +86,10 @@ public class Bestellpost implements Serializable {
         this.pizza = pizza;
     }
 
+    public void deletePizza(){
+        this.pizza = null;
+    }
+
     /**
      * @return Integer return the menge
      */

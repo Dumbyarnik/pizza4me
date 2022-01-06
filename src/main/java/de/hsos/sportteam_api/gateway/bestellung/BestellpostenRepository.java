@@ -46,10 +46,16 @@ public class BestellpostenRepository implements Serializable {
         if (pizza == null)
             return false;
         
+        // check if pizza exists already
+        for (Bestellpost bestellpost : bestellung.getBestellposten())
+            if (bestellpost.getPizza().getId().equals(bestellpostDAO.pizzaId)){
+                return false;
+            }
+        
         Bestellpost bestellpost = new Bestellpost();
+        // setting relationships
         bestellpost.setPizza(pizza);
         bestellpost.setMenge(bestellpostDAO.pizzaMenge);
-        // setting relationships
         //bestellung.addBestellpost(bestellpost);
         bestellpost.setBestellung(bestellung);
 
@@ -84,6 +90,10 @@ public class BestellpostenRepository implements Serializable {
 
         for (Bestellpost bestellpost : bestellung.getBestellposten())
             if (bestellpost.getPizza().getId().equals(pizza_id)){
+                bestellung.getBestellposten().remove(bestellpost);
+                bestellpost.deleteBestellung();
+                bestellpost.deletePizza();
+                em.merge(bestellung);
                 em.remove(bestellpost);
                 return true;
             }

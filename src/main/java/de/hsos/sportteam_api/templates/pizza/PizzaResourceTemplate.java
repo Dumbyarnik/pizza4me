@@ -1,24 +1,30 @@
 package de.hsos.sportteam_api.templates.pizza;
 
+import java.security.Principal;
 import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.Response.Status;
 
 import de.hsos.sportteam_api.entities.basic.Pizza;
 import de.hsos.sportteam_api.gateway.PizzaRepository;
+import de.hsos.sportteam_api.gateway.bestellung.BestellungRepository;
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
 
@@ -30,6 +36,9 @@ public class PizzaResourceTemplate {
 
     @Inject
     PizzaRepository pizzaRepository;
+
+    @Inject
+    BestellungRepository bestellungRepository;
 
     @Inject 
     Template pizzasTemplate;
