@@ -26,7 +26,6 @@ import org.eclipse.microprofile.openapi.annotations.Operation;
 import de.hsos.sportteam_api.entities.DAO.BestellpostMinDAO;
 import de.hsos.sportteam_api.gateway.bestellung.BestellungRepository;
 import de.hsos.sportteam_api.gateway.PizzaRepository;
-import de.hsos.sportteam_api.gateway.kunden.KundenRepository;
 
 @ApplicationScoped
 @Path("/bestellungen")

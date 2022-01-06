@@ -1,4 +1,4 @@
-package de.hsos.sportteam_api.entities;
+package de.hsos.sportteam_api.entities.basic;
 
 import java.io.Serializable;
 
@@ -84,6 +84,10 @@ public class Bestellpost implements Serializable {
      */
     public void setPizza(Pizza pizza) {
         this.pizza = pizza;
+    }
+
+    public void deletePizza(){
+        this.pizza = null;
     }
 
     /**

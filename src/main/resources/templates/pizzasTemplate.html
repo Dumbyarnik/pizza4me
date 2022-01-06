@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Hauptseite</title> 
+</head>
+<body>
+    <input type="button" 
+        onclick="location.href='/kunden/template';" 
+        value="Go to account" />
+    <input type="button" 
+        onclick="location.href='/kunden/template/register';"
+        value="Create Account" />
+    <input type="button" 
+        onclick="location.href='/bestellung/template';"
+        value="Bestellen" />
+    <h1>Our tasty pizzas</h1>
+
+    <ul>
+        {#for pizza in pizzas}
+            <li>
+                <h2>{pizza.name}</h2>
+                <a href="/pizzas/template/{pizza.id}">Mehr erfahren</a>
+            </li>
+        {/}
+    </ul>
+  
+</body>
+</html>

@@ -9,10 +9,10 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
-import de.hsos.sportteam_api.entities.Adresse;
-import de.hsos.sportteam_api.entities.Bestellung;
-import de.hsos.sportteam_api.entities.Kunde;
 import de.hsos.sportteam_api.entities.DAO.AdresseDAO;
+import de.hsos.sportteam_api.entities.basic.Adresse;
+import de.hsos.sportteam_api.entities.basic.Bestellung;
+import de.hsos.sportteam_api.entities.basic.Kunde;
 import de.hsos.sportteam_api.entities.security.UserLogin;
 
 @Model
@@ -57,6 +57,19 @@ public class KundenRepository implements Serializable {
 
     public Kunde getKunde(long kundeNummer) {
         Kunde kunde = em.find(Kunde.class, kundeNummer);
+        for (Bestellung bestellung : kunde.getBestellungen()){
+            bestellung.deleteKunde();
+            bestellung.deleteBestellposten();
+        }
+        return kunde;
+    }
+
+    public Kunde getKunde(String username) {
+        Kunde kunde = em.createQuery("Select k FROM Kunde k where " + 
+            "k.nachname LIKE :username",
+            Kunde.class)
+            .setParameter("username", username)
+            .getSingleResult();
         for (Bestellung bestellung : kunde.getBestellungen()){
             bestellung.deleteKunde();
             bestellung.deleteBestellposten();

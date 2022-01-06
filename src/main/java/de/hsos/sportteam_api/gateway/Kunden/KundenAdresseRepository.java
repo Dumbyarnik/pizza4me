@@ -9,10 +9,10 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
-import de.hsos.sportteam_api.entities.Adresse;
-import de.hsos.sportteam_api.entities.Bestellung;
-import de.hsos.sportteam_api.entities.Kunde;
 import de.hsos.sportteam_api.entities.DAO.AdresseDAO;
+import de.hsos.sportteam_api.entities.basic.Adresse;
+import de.hsos.sportteam_api.entities.basic.Bestellung;
+import de.hsos.sportteam_api.entities.basic.Kunde;
 import de.hsos.sportteam_api.entities.security.UserLogin;
 
 @Model

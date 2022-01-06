@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+
+    function getFormData($form){
+        var unindexed_array = $form.serializeArray();
+        var indexed_array = {};
+
+        $.map(unindexed_array, function(n, i){
+            indexed_array[n['name']] = n['value'];
+        });
+
+        return indexed_array;
+    }      
+    
+    $(document).ready(function(){
+        // create bestellung and get a nummer
+        $("#bestellen").on('click', function(){                
+            // send ajax
+            $.ajax({
+                url: '/bestellung/template', // url where to submit the request
+                type : "POST", // type of action POST || GET
+                success : function(text) {
+                    alert ("Nummer deiner Bestellung ist " + text);
+                }
+            })
+        });
+        // create bestellpost
+        $("#create").on('click', function(){
+            var $form = $("#form");
+            var data = getFormData($form);
+                        
+            // send ajax
+            $.ajax({
+                url: '/bestellungen/' + data.bestellungId + '/bestellposten', // url where to submit the request
+                type : "POST", // type of action POST || GET
+                dataType : 'json', // data type
+                data : JSON.stringify({
+                    pizzaId:data.pizzaId,
+                    pizzaMenge:data.pizzaMenge,    
+                }) , // post data || get data
+                contentType: 'application/json'
+            })
+            $.ajax({
+                url: "",
+                context: document.body,
+                success: function(s,x){
+                $(this).html(s);
+                }
+            });
+        });
+        // update bestellpost
+        $("#update").on('click', function(){
+            var $form = $("#form");
+            var data = getFormData($form);
+                        
+            // send ajax
+            $.ajax({
+                url: '/bestellung/template/' + data.bestellungId + '/update', // url where to submit the request
+                type : "POST", // type of action POST || GET
+                dataType : 'json', // data type
+                data : JSON.stringify({
+                    pizzaId:data.pizzaId,
+                    pizzaMenge:data.pizzaMenge,    
+                }) , // post data || get data
+                contentType: 'application/json'
+            })
+            $.ajax({
+                url: "",
+                context: document.body,
+                success: function(s,x){
+                $(this).html(s);
+                }
+            });
+        });
+        // update bestellpost
+        $("#delete").on('click', function(){
+            var $form = $("#form");
+            var data = getFormData($form);
+                        
+            // send ajax
+            $.ajax({
+                url: '/bestellung/template/' + data.bestellungId + '/delete/' + data.pizzaId, // url where to submit the request
+                type : "POST", // type of action POST || GET
+            })
+            $.ajax({
+                url: "",
+                context: document.body,
+                success: function(s,x){
+                $(this).html(s);
+                }
+            });
+        });
+    });
+    
+</script>
+<title>Bestellung</title> 
+</head>
+<body>
+    <input type="button" 
+        onclick="location.href='/pizzas/template';" 
+        value="Go to menu" />
+    <input type="button" 
+        id="bestellen"
+        value="Nummer erhalten" />
+
+    <h1>Our tasty pizzas</h1>
+
+    <ul>
+        {#for pizza in pizzas}
+            <li>
+                <h2>{pizza.name}</h2>
+                <p>id: {pizza.id}</p>
+            </li>
+        {/}
+    </ul>
+
+    <form id="form" >
+        <label for="bestellungId">Bestellung Id: </label><br /><input type="text" name="bestellungId"
+            required /> <br />
+        <label for="pizzaId">Pizza Id: </label><br /><input type="text" name="pizzaId"
+            required /> <br />
+        <label for="pizzaMenge">Menge: </label><br /><input type="text" name="pizzaMenge"
+            required /> <br />
+        <input id="create" type="button" value="Create bestellpost" />
+        <input id="update" type="button" value="Update Bestellpost" />
+        <input id="delete" type="button" value="Delete bestellpost" />
+    </form>
+
+
+    {#if last_bestellung}
+        <h3>Deine letzte Bestellung: {last_bestellung.id}</h3>
+        <ul>
+            {#for bestellpost in last_bestellung.bestellposten}
+                <li>
+                    <h4>{bestellpost.pizza.name}</h4>
+                    <p>Menge: {bestellpost.menge}</p>
+                </li>
+            {/}
+        </ul>
+        
+    {#else}
+        <h3>Hier könnte deine Bestellung sein!</h3>
+    {/if}
+  
+</body>
+</html>

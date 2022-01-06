@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!--https://stackoverflow.com/questions/11338774/serialize-form-data-to-json-->
+
+<title>{kunde.nachname}</title> 
+</head>
+<body>
+    <input type="button" 
+            onclick="location.href='/pizzas/template';" 
+            value="Go to menü" />
+    <h1>{kunde.nachname}</h1>
+    {#if kunde.adresse}
+        <h3>Adresse: </h3>
+        <p>Ort: {kunde.adresse.ort}</p>
+        <p>Plz: {kunde.adresse.plz}</p>
+        <p>Strasse: {kunde.adresse.strasse}</p>
+        <p>Hausnummer: {kunde.adresse.hausnr}</p>
+        <input type="button" 
+        onclick="location.href='/kunden/template/adresse';" 
+        value="Edit address" />
+    {#else}
+        <input type="button" 
+            onclick="location.href='/kunden/template/adresse';" 
+            value="Create address" />
+    {/if}
+    
+</body>
+</html>
