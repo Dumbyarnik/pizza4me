@@ -18,10 +18,13 @@
         <p>Plz: {kunde.adresse.plz}</p>
         <p>Strasse: {kunde.adresse.strasse}</p>
         <p>Hausnummer: {kunde.adresse.hausnr}</p>
+        <input type="button" 
+        onclick="location.href='/kunden/template/adresse';" 
+        value="Edit address" />
     {#else}
         <input type="button" 
             onclick="location.href='/kunden/template/adresse';" 
-            value="Create adress" />
+            value="Create address" />
     {/if}
     
 </body>

@@ -22,6 +22,7 @@ import org.eclipse.microprofile.openapi.annotations.Operation;
 import javax.ws.rs.core.MediaType;
 
 import de.hsos.sportteam_api.entities.DAO.AdresseDAO;
+import de.hsos.sportteam_api.entities.DAO.LoginDAO;
 import de.hsos.sportteam_api.entities.basic.Adresse;
 import de.hsos.sportteam_api.entities.basic.Kunde;
 import de.hsos.sportteam_api.gateway.kunden.KundenRepository;
@@ -62,9 +63,8 @@ public class KundenResource {
     // http://localhost:8080/kunden
     @POST
     @PermitAll
-    public Response createKunde(@QueryParam("name") String name, 
-        @QueryParam("password") String password) {
-        if (kundenRepository.createKunde(name, password))
+    public Response createKunde(LoginDAO loginDAO) {
+        if (kundenRepository.createKunde(loginDAO.username, loginDAO.password))
             return Response.ok().build();
         return Response.ok("Username existiert").build();
     }

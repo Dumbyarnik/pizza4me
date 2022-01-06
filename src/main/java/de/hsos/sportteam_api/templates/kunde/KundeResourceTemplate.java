@@ -44,6 +44,9 @@ public class KundeResourceTemplate {
 
     @Inject 
     Template kundeTemplate;
+
+    @Inject 
+    Template registerTemplate;
     
     @PostConstruct
     public void init() {
@@ -58,6 +61,14 @@ public class KundeResourceTemplate {
         Kunde kunde = this.kundenRepository.getKunde(username);
 
         return this.kundeTemplate.data("kunde", kunde);
+    }
+
+    // http://localhost:8080/kunden/template/register
+    @GET
+    @Path("/register")
+    @RolesAllowed("KundIn")
+    public TemplateInstance getRegister(@Context SecurityContext sec) {
+        return this.registerTemplate.instance();
     }
     
     // http://localhost:8080/kunden/template/adresse

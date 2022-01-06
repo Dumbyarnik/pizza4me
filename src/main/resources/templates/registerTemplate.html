@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!--https://stackoverflow.com/questions/11338774/serialize-form-data-to-json-->
+<script>
+
+    function getFormData($form){
+        var unindexed_array = $form.serializeArray();
+        var indexed_array = {};
+
+        $.map(unindexed_array, function(n, i){
+            indexed_array[n['name']] = n['value'];
+        });
+
+        return indexed_array;
+    }
+    
+    $(document).ready(function(){
+        // create address
+        $("#submit").on('click', function(){
+            var $form = $("#form");
+            var data = getFormData($form);
+                        
+            // send ajax
+            $.ajax({
+                url: '/kunden', // url where to submit the request
+                type : "POST", // type of action POST || GET
+                dataType : 'json', // data type
+                data : JSON.stringify({
+                    username:data.username,
+                    password:data.password,      
+                }) , // post data || get data
+                contentType: 'application/json'
+            })
+            $.ajax({
+                url: "",
+                context: document.body,
+                success: function(s,x){
+                $(this).html(s);
+                }
+            });
+        });
+    });
+    
+</script>
+<title>Account erstellen</title> 
+</head>
+<body>
+    <input type="button" 
+            onclick="location.href='/pizzas/template';" 
+            value="Go to menu" />
+    <h1>Account erstellen</h1>
+        <form id="form" >
+            <label for="username">Username: </label><br /><input type="text" name="username"
+                required /> <br />
+            <label for="password">Password: </label><br /><input type="text" name="password"
+                required /> <br />
+            <input id="submit" type="button" value="Account erstellen" />
+        </form>
+</body>
+</html>
