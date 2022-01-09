@@ -66,7 +66,6 @@ public class KundeResourceTemplate {
     // http://localhost:8080/kunden/template/register
     @GET
     @Path("/register")
-    @RolesAllowed("KundIn")
     public TemplateInstance getRegister(@Context SecurityContext sec) {
         return this.registerTemplate.instance();
     }

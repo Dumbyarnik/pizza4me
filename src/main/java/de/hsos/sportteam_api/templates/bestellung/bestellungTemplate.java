@@ -54,7 +54,7 @@ public class bestellungTemplate {
 
     // http://localhost:8080/bestellung/template
     @GET
-    @PermitAll
+    @RolesAllowed("KundIn")
     public TemplateInstance getBestellungTemplate(@Context SecurityContext sec) {
         Principal user = sec.getUserPrincipal();
         String username = user.getName();
